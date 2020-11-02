@@ -42,6 +42,10 @@ function getDateString() {
 }
 
 function putDefaults(ctx, width, height, icons_arr = [1, 2, 3, 5]){
+
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, width, height);
+
   // header
   const grad = ctx.createLinearGradient(0,0, width, 0); // グラデーションを作成
   grad.addColorStop(0,HEADER_COLOR_START);
@@ -108,3 +112,15 @@ function createCanvas() {
     putDefaults(ctx, canvas.width / CANVAS_SCALE , canvas.height / CANVAS_SCALE)
   }
 }
+
+function download(event){
+    let canvas = document.getElementById("ranking__pyramid");
+
+    let link = document.createElement("a");
+    link.href = canvas.toDataURL("image/png");
+    link.download = "test.png";
+    link.click();
+}
+
+
+document.getElementById("download").onclick = download
