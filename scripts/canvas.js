@@ -24,6 +24,7 @@ const HEADER_COLOR_START = "#40AFFF";
 const HEADER_COLOR_END = "#0086ff";
 const HEADER_LOGO_IMG = "assets/logo.svg";
 const PYRAMID_ROWS = [1, 2, 3, 5];
+const PYRAMID_MAX = 11; // sum of PYRAMID_ROWS
 
 const FONT_DEFAULT = "'serif'";
 
@@ -51,7 +52,7 @@ function readFromCSV(path, callback) {
 function convertCSVArrayToTraineeData(csvArrays) {
   return trainees = csvArrays.map(function(traineeArray, index) {
     const trainee = {};
-    trainee.id = parseInt(traineeArray[0].split('_')[0]); // trainee id is the original ordering of the trainees in the first csv
+    trainee.id = parseInt(traineeArray[0].split('_')[0]) - 1;
     trainee.image = traineeArray[0] + ".jpg";
     trainee.name_romanized = traineeArray[1];
     trainee.name_japanese = traineeArray[2];
@@ -296,11 +297,12 @@ function onMouseDown(e){
 }
 
 var currentBorder = 98;
-var picks = [0, 1, 2, null, 25]
+var picks = []
 
 readFromCSV(MEMBER_FILE,
             (t) => {
               trainees = t;
               createCanvas(picks);
+              renderBox(trainees);
             });
 document.getElementById("download").onclick = download
