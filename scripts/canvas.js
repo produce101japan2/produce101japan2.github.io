@@ -3,13 +3,14 @@ const ICON_PREFIX = "assets/trainees/"
 const ICON_DEFAULT_IMAGE = ICON_PREFIX+"emptyrank.png";
 const ICON_BORDER = 2;
 const ICON_DEFAULT_LINE_COLOR = "#707070";
-const ICON_RANK_FONT_DEFAULT = 8;
+const ICON_RANK_FONT_SIZE = 8;
 const ICON_RANK_FONT_COLOR = "#fff";
 const ICON_RANK_BG_COLOR = "#0086ff";
+const ICON_RANK_NAME_SIZE = 11;
 const PYRAMID_PADDING_X = 50;
 const PYRAMID_PADDING_Y = 40;
 const CANVAS_SCALE = 2;
-const HEADER_HEIGHT = 30;
+const HEADER_HEIGHT = 60;
 const HEADER_MARGIN = HEADER_HEIGHT + PYRAMID_PADDING_Y / 2;
 const HEADER_COLOR_START = "#40AFFF";
 const HEADER_COLOR_END = "#0086ff";
@@ -62,11 +63,11 @@ function drawPicture(ctx, width, height, icons_arr = [1, 2, 3, 5]){
   ctx.rect( 0, 0, width, HEADER_HEIGHT )
   ctx.fillStyle = grad;
   ctx.fill() ;
-  drawString(ctx, "PRODUCE 101 JAPAN", 40, HEADER_HEIGHT - 5, 20, "#fff")
-  drawString(ctx, "推しMENメーカー", 260, HEADER_HEIGHT - 5, 18, "#f3cdd3", "left")
+  drawString(ctx, "PRODUCE 101 JAPAN season2", width / 2, 20 + 5 , 20, "#fff", "center")
+  drawString(ctx, "推しMENメーカー", width / 2, 40 + 10, 18, "#f3cdd3", "center")
 
   // date
-  drawString(ctx, getDateString(),  width - 150,  height - 20, 12)
+  drawString(ctx, getDateString(),  width,  height - 20, 12, "#000","end")
 
   // border
   processPyramidCell(icons_arr, (row_icons_size, i,j) => {
@@ -104,8 +105,8 @@ function drawPicture(ctx, width, height, icons_arr = [1, 2, 3, 5]){
         }
         ctx.beginPath();
         ctx.arc( (width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
-                i * (ICON_WIDTH + PYRAMID_PADDING_Y)+ HEADER_MARGIN+ICON_WIDTH -  ICON_RANK_FONT_DEFAULT/2,
-                ICON_RANK_FONT_DEFAULT / 2 + 1, 0, Math.PI*2);
+                i * (ICON_WIDTH + PYRAMID_PADDING_Y)+ HEADER_MARGIN+ICON_WIDTH -  ICON_RANK_FONT_SIZE/2,
+                ICON_RANK_FONT_SIZE / 2 + 1, 0, Math.PI*2);
         ctx.fillStyle = ICON_RANK_BG_COLOR;
         ctx.fill() ;
         ctx.strokeStyle = ICON_RANK_BG_COLOR;
@@ -113,9 +114,15 @@ function drawPicture(ctx, width, height, icons_arr = [1, 2, 3, 5]){
         ctx.stroke();
         drawString(ctx, rank_sum + j + 1,
                    (width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
-                   i * (ICON_WIDTH + PYRAMID_PADDING_Y)+ HEADER_MARGIN+ICON_WIDTH,
-                   ICON_RANK_FONT_DEFAULT, ICON_RANK_FONT_COLOR, "center")
+                   i * (ICON_WIDTH + PYRAMID_PADDING_Y)+ HEADER_MARGIN + ICON_WIDTH,
+                   ICON_RANK_FONT_SIZE, ICON_RANK_FONT_COLOR, "center")
       };
+
+      // put name
+      drawString(ctx, "test日本語",
+                 (width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
+                 (i + 1) * (ICON_WIDTH + PYRAMID_PADDING_Y) + ICON_WIDTH,
+                 ICON_RANK_NAME_SIZE, "#000", "center")
   })
 
   // put rank
