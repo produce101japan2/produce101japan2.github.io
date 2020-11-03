@@ -262,6 +262,7 @@ function getRankFrom(width, point){
       result = rank;
    }
   });
+  console.log(result)
   return result;
 }
 
@@ -270,10 +271,9 @@ function onClickCanvas(e){
   const x = (e.clientX - rect.left);
   const y = (e.clientY - rect.top);
   const point = {
-   x: e.clientX - rect.left,
-   y: e.clientY - rect.top
+   x: (e.clientX - rect.left) * e.target.width / (CANVAS_SCALE * e.target.clientWidth),
+   y: (e.clientY - rect.top) * e.target.width / (CANVAS_SCALE * e.target.clientWidth)
   }
-
   const rank = getRankFrom(e.target.width / CANVAS_SCALE, point)
   if (typeof draggingStart.x !== 'undefined') {
     const startRank = getRankFrom(e.target.width / CANVAS_SCALE, draggingStart)
@@ -290,8 +290,8 @@ function onMouseDown(e){
   const rect = e.target.getBoundingClientRect();
   if (typeof draggingStart.x === 'undefined') {
     draggingStart = {
-       x: e.clientX - rect.left,
-       y: e.clientY - rect.top
+      x: (e.clientX - rect.left) * e.target.width / (CANVAS_SCALE * e.target.clientWidth),
+      y: (e.clientY - rect.top) * e.target.width / (CANVAS_SCALE * e.target.clientWidth)
     }
   }
 }

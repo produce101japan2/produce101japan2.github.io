@@ -1,0 +1,3 @@
+function renderBox(trainees, picks){
+
+}

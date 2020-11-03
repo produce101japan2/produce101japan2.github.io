@@ -68,22 +68,21 @@ body {
 }
 
 /* Styles for table */
-#table {
+#trainee_picker {
   height: 40vh;
   min-height: 350px;
   width: 300px;
-  box-shadow: 0px 2px 4px 0.1px var(--produce-gray);
   border-radius: 8px;
   border: 1px solid var(--produce-gray);
   margin: 10px;
   display: flex;
   flex-direction: column;
 }
-#table__filter-container {
+#trainee_picker__filter-container {
   padding: 8px;
   border-bottom: 1px solid var(--produce-gray);
 }
-#table__filter-input {
+#trainee_picker__filter-input {
   padding: 5px;
   padding-left: 25px;
   height: 100%;
@@ -166,7 +165,7 @@ body {
 }
 
 /* Styles for table entries */
-#table__entry-container {
+#trainee_picker__container {
   overflow-y: scroll;
 }
 .table__entry {
