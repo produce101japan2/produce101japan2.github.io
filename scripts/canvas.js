@@ -1,3 +1,4 @@
+const CANVAS_SCALE = 2;
 const ICON_WIDTH = 60;
 const ICON_PREFIX = "assets/trainees/"
 const ICON_DEFAULT_IMAGE = ICON_PREFIX+"emptyrank.png";
@@ -6,10 +7,9 @@ const ICON_DEFAULT_LINE_COLOR = "#707070";
 const ICON_RANK_FONT_SIZE = 8;
 const ICON_RANK_FONT_COLOR = "#fff";
 const ICON_RANK_BG_COLOR = "#0086ff";
-const ICON_RANK_NAME_SIZE = 11;
+const ICON_RANK_NAME_SIZE = 13;
 const PYRAMID_PADDING_X = 50;
 const PYRAMID_PADDING_Y = 40;
-const CANVAS_SCALE = 2;
 const HEADER_HEIGHT = 60;
 const HEADER_MARGIN = HEADER_HEIGHT + PYRAMID_PADDING_Y / 2;
 const HEADER_COLOR_START = "#40AFFF";
@@ -67,7 +67,7 @@ function drawPicture(ctx, width, height, icons_arr = [1, 2, 3, 5]){
   drawString(ctx, "推しMENメーカー", width / 2, 40 + 10, 18, "#f3cdd3", "center")
 
   // date
-  drawString(ctx, getDateString(),  width,  height - 20, 12, "#000","end")
+  drawString(ctx, 'at '+getDateString(),  width - 5,  height - 20, 12, "#000","end")
 
   // border
   processPyramidCell(icons_arr, (row_icons_size, i,j) => {
@@ -132,7 +132,7 @@ function createCanvas() {
   var canvas = document.getElementById('ranking__pyramid');
   if (canvas.getContext){
     const ctx = canvas.getContext("2d");
-    ctx.scale(CANVAS_SCALE,CANVAS_SCALE);
+    ctx.scale(CANVAS_SCALE, CANVAS_SCALE);
 
     drawPicture(ctx, canvas.width / CANVAS_SCALE , canvas.height / CANVAS_SCALE)
   }

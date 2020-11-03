@@ -297,7 +297,7 @@ body {
   display: flex;
   flex-direction: column;
 	margin:10px auto;
-//	width: 540px;
+	width: 540px;
 }
 
 #ranking__title {
@@ -439,122 +439,9 @@ footer p{
   text-align: right;
 }
 
-@media screen and (max-width: 480px) {
-  #top-banner {
-    padding: 3px;
-  }
-  #banner-image {
-    width: 20px;
-    display: inline-block;
-    margin: 0;
-    vertical-align: middle;
-  }
-  #banner-title {
-    font-size: 14px;
-    margin: 0;
-    display: inline-block;
-  }
-  #banner-subtitle {
-    font-size: 10px;
-    display: inline-block;
-  }
-
-  /* Styles for table */
-  #table {
-    width: 90vw;
-    margin: 0;
-    min-height: 250px;
-  }
-  #table__filter-container {
-    padding: 4px;
-  }
-  #table__filter-input {
-      padding-left: 33px;
-      height: 40px;
-      background-size: 26px;
-  }
-
-  /* Styles for filtering at bottom of table */
-  .checkbox-label {
-    font-size: 14px;
-  }
-
-  /* Styles for share link functionality */
-  #sharelink-container {
-    margin: 12px;
-  }
-  #getlink-button {
-    width: 100%;
-    height: 40px;
-  }
-
-  /* Different entry borders */
-  .table__entry-text .name {
-    font-size: 14px;
-  }
-  .table__entry .hangul {
-    font-size: 14px;
-  }
-  .table__entry .companyandyear {
-    font-size: 12px;
-  }
-
-  /* Different entry borders */
-  .a-rank-border {
-    border: 2px solid var(--a-rank);
-  }
-  .b-rank-border {
-    border: 2px solid var(--b-rank);
-  }
-  .c-rank-border {
-    border: 2px solid var(--c-rank);
-  }
-  .d-rank-border {
-    border: 2px solid var(--d-rank);
-  }
-  .f-rank-border {
-    border: 2px solid var(--f-rank);
-  }
-  .x-rank-border {
-    border: 2px solid var(--x-rank);
-  }
-  .no-rank-border {
-    border: none;
-  }
-  .eliminated .table__entry-icon-border {
-    border: 2px solid var(--no-rank);
-  }
-  .eliminated .ranking__entry-icon-border {
-    border: 2px solid var(--no-rank);
-  }
-  .ranking__entry-icon-border.dragged-over { /* defines a border for when you drag over a trainee in ranking */
-    border: 2px solid var(--checked-blue);
-  }
-
-
-  //
+@media screen and (max-width: 540px) {
   /* Ranking Styles */
   #ranking__pyramid {
-    transform: scale(0.65);
-  }
-
-  /* Generic Styles */
-  .padded-box {
-    padding: 10px;
-  }
-
-}
-
-@media screen and (max-width: 360px) {
-  /* Ranking Styles */
-  #ranking__pyramid {
-    transform: scale(0.6);
-  }
-}
-
-@media screen and (max-width: 320px) {
-  /* Ranking Styles */
-  #ranking__pyramid {
-    transform: scale(0.55);
+    width: 90%;
   }
 }
