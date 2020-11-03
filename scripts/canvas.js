@@ -262,7 +262,6 @@ function getRankFrom(width, point){
       result = rank;
    }
   });
-  console.log(result)
   return result;
 }
 
