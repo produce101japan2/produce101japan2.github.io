@@ -99,7 +99,7 @@ function processPyramidCell(processCell){
 }
 
 function putTraineeCell(ctx, width, height, row_icons_size, i, j, trainee, rank) {
-
+   // reset
    const cellStart = {
      x: (width - (ICON_WIDTH + PYRAMID_PADDING_X) * row_icons_size) /2 + (ICON_WIDTH + PYRAMID_PADDING_X) * j,
      y:  i * (ICON_WIDTH + PYRAMID_PADDING_Y) + HEADER_MARGIN
@@ -202,7 +202,7 @@ function createCanvas(picks = [], isReset = false) {
   }
 }
 
-function updateCanvas(picksToBe = [0]) {
+function updateCanvas(picksToBe) {
   var canvas = document.getElementById('ranking__pyramid');
   if (canvas.getContext){
     const ctx = canvas.getContext("2d");
@@ -227,17 +227,29 @@ function download(event){
     link.click();
 }
 
-function changePicks(picks){
-  updateCanvas(picks)
+function deletePick(rank){
+  const picksToBe = picks.slice(0, picks.length);
+  picksToBe[rank] = null;
+  updateCanvas(picksToBe)
 }
 
 function onClickCanvas(e){
-    var rect = e.target.getBoundingClientRect();
-    x = e.clientX - rect.left;
-    y = e.clientY - rect.top;
+  const rect = e.target.getBoundingClientRect();
+  const x = (e.clientX - rect.left);
+  const y = (e.clientY - rect.top);
 
-   console.log(x + " " + y)
-   changePicks([0, 50])
+  processPyramidCell((row_icons_size, i, j, rank) => {
+   const cellArea = {
+     x: (e.target.width / CANVAS_SCALE - (ICON_WIDTH + PYRAMID_PADDING_X) * row_icons_size + PYRAMID_PADDING_X) / 2 + (ICON_WIDTH + PYRAMID_PADDING_X) * j,
+     xEnd: (e.target.width / CANVAS_SCALE - (ICON_WIDTH + PYRAMID_PADDING_X) * row_icons_size + PYRAMID_PADDING_X) /2 + (ICON_WIDTH + PYRAMID_PADDING_X) * j + ICON_WIDTH,
+     y:  i * (ICON_WIDTH + PYRAMID_PADDING_Y) + HEADER_MARGIN,
+     yEnd:  i * (ICON_WIDTH + PYRAMID_PADDING_Y) + HEADER_MARGIN + ICON_WIDTH,
+   }
+   if(x >= cellArea.x && x <= cellArea.xEnd && y >= cellArea.y && y <= cellArea.yEnd) {
+     deletePick(rank);
+   }
+  })
+
 }
 
 var currentBorder = 98;
