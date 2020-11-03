@@ -2,6 +2,7 @@ const ICON_WIDTH = 60;
 const ICON_PREFIX = "assets/trainees/"
 const ICON_DEFAULT_IMAGE = ICON_PREFIX+"emptyrank.png";
 const ICON_BORDER = 2;
+const ICON_DEFAULT_LINE_COLOR = "#707070";
 const PYRAMID_PADDING_X = 50;
 const PYRAMID_PADDING_Y = 40;
 const CANVAS_SCALE = 2;
@@ -13,8 +14,6 @@ const HEADER_LOGO_IMG = "assets/logo.svg";
 
 const FONT_DEFAULT = "'serif'";
 const icon_sample_image = ICON_PREFIX+"001_aokimasanami.png";
-
-const ICON_DEFAULT_LINE_COLOR = "blue";
 
 function zeroPadding(num,length){
   return ('0' + num).slice(-length);
@@ -47,7 +46,7 @@ function processPyramidCell(icons_arr, processCell){
   }
 }
 
-function putDefaults(ctx, width, height, icons_arr = [1, 2, 3, 5]){
+function drawPicture(ctx, width, height, icons_arr = [1, 2, 3, 5]){
   // background
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, 0, width, height);
@@ -107,7 +106,7 @@ function createCanvas() {
     const ctx = canvas.getContext("2d");
     ctx.scale(CANVAS_SCALE,CANVAS_SCALE);
 
-    putDefaults(ctx, canvas.width / CANVAS_SCALE , canvas.height / CANVAS_SCALE)
+    drawPicture(ctx, canvas.width / CANVAS_SCALE , canvas.height / CANVAS_SCALE)
   }
 }
 
@@ -116,7 +115,7 @@ function download(event){
 
     let link = document.createElement("a");
     link.href = canvas.toDataURL("image/png");
-    link.download = "test.png";
+    link.download = `p101js2_${new Date().getTime()}.png`;
     link.click();
 }
 
