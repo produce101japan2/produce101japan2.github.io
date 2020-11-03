@@ -22,6 +22,7 @@ const HEADER_MARGIN = HEADER_HEIGHT + PYRAMID_PADDING_Y / 2;
 const HEADER_COLOR_START = "#40AFFF";
 const HEADER_COLOR_END = "#0086ff";
 const HEADER_LOGO_IMG = "assets/logo.svg";
+const PYRAMID_ROWS = [1, 2, 3, 5];
 
 const FONT_DEFAULT = "'serif'";
 
@@ -83,16 +84,84 @@ function getDateString() {
          + ":" + zeroPadding(today.getMinutes(), 2) ;
 }
 
-function processPyramidCell(icons_arr, processCell){
-  for (let i = 0; i < icons_arr.length; i++) {
-    const row_icons_size = icons_arr[i];
+function processPyramidCell(processCell){
+  for (let i = 0; i < PYRAMID_ROWS.length; i++) {
+    const row_icons_size = PYRAMID_ROWS[i];
     for(let j = 0; j < row_icons_size; j++){
-      processCell(row_icons_size, i, j)
+      let rank_sum = 0;
+      for(let k = 0; k < i; k++){
+       rank_sum += PYRAMID_ROWS[k];
+      }
+      const rank = rank_sum + j;
+      processCell(row_icons_size, i, j, rank)
     }
   }
 }
 
-function drawPicture(ctx, width, height, picks, icons_arr = [1, 2, 3, 5]){
+function putTraineeCell(ctx, width, height, row_icons_size, i, j, trainee, rank) {
+
+   const cellStart = {
+     x: (width - (ICON_WIDTH + PYRAMID_PADDING_X) * row_icons_size) /2 + (ICON_WIDTH + PYRAMID_PADDING_X) * j,
+     y:  i * (ICON_WIDTH + PYRAMID_PADDING_Y) + HEADER_MARGIN
+   }
+   ctx.fillStyle = '#fff';
+   ctx.fillRect(cellStart.x,
+                cellStart.y,
+                ICON_WIDTH + PYRAMID_PADDING_X,
+                ICON_WIDTH + PYRAMID_PADDING_Y);
+
+   // border
+   ctx.beginPath();
+   ctx.arc((width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
+           i * (ICON_WIDTH + PYRAMID_PADDING_Y) + ICON_WIDTH / 2 + HEADER_MARGIN,
+            ICON_WIDTH / 2 - ICON_BORDER, 0, Math.PI*2);
+   ctx.closePath();
+   ctx.strokeStyle = trainee != null ? ICON_LINE_COLOR[trainee.grade] : ICON_DEFAULT_LINE_COLOR;
+   ctx.lineWidth = ICON_BORDER;
+   ctx.stroke();
+
+   const chara = new Image();
+   chara.src = trainee != null ? ICON_PREFIX + trainee.image : ICON_DEFAULT_IMAGE
+
+   chara.onload = () => {
+     ctx.save();
+     ctx.arc((width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
+             i * (ICON_WIDTH + PYRAMID_PADDING_Y) + ICON_WIDTH / 2+ HEADER_MARGIN,
+              ICON_WIDTH / 2 - ICON_BORDER, 0, Math.PI*2);
+     ctx.closePath();
+     ctx.clip();
+     ctx.drawImage(chara,
+                   (width - ICON_WIDTH  * (row_icons_size) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2 + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
+                   i * (ICON_WIDTH + PYRAMID_PADDING_Y)+ HEADER_MARGIN,
+                   ICON_WIDTH, ICON_WIDTH);
+     ctx.restore();
+
+     // put rank
+     ctx.beginPath();
+     ctx.arc( (width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
+             i * (ICON_WIDTH + PYRAMID_PADDING_Y)+ HEADER_MARGIN+ICON_WIDTH -  ICON_RANK_FONT_SIZE/2,
+             ICON_RANK_FONT_SIZE / 2 + 1, 0, Math.PI*2);
+     ctx.fillStyle = ICON_RANK_BG_COLOR;
+     ctx.fill() ;
+     ctx.strokeStyle = ICON_RANK_BG_COLOR;
+     ctx.lineWidth = 0;
+     ctx.stroke();
+     drawString(ctx, rank + 1,
+                (width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
+                i * (ICON_WIDTH + PYRAMID_PADDING_Y)+ HEADER_MARGIN + ICON_WIDTH,
+                ICON_RANK_FONT_SIZE, ICON_RANK_FONT_COLOR, "center")
+   };
+
+   // put name
+   drawString(ctx,
+              trainee != null ? trainee.name_japanese : "",
+              (width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
+              (i + 1) * (ICON_WIDTH + PYRAMID_PADDING_Y) + ICON_WIDTH,
+              ICON_RANK_NAME_SIZE, "#000", "center")
+
+}
+
+function drawPicture(ctx, width, height, picks){
   // background
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, 0, width, height);
@@ -112,69 +181,16 @@ function drawPicture(ctx, width, height, picks, icons_arr = [1, 2, 3, 5]){
   drawString(ctx, 'at '+getDateString(),  width - 5,  height - 20, 12, "#000","end")
 
   // draw picture
-  processPyramidCell(icons_arr, (row_icons_size, i,j) => {
-      // current rank
-      let rank_sum = 0;
-      for(let k = 0; k < i; k++){
-        rank_sum += icons_arr[k];
-      }
-      const rank = rank_sum + j;
-      const trainee = picks[rank] !== 'undefined' && picks[rank] != null && typeof trainees[picks[rank]] !== 'undefined'
-                     ? trainees[picks[rank]] : null;
-
-      // border
-      ctx.beginPath();
-      ctx.arc((width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
-              i * (ICON_WIDTH + PYRAMID_PADDING_Y) + ICON_WIDTH / 2 + HEADER_MARGIN,
-               ICON_WIDTH / 2 - ICON_BORDER, 0, Math.PI*2);
-      ctx.closePath();
-      ctx.strokeStyle = trainee != null ? ICON_LINE_COLOR[trainee.grade] : ICON_DEFAULT_LINE_COLOR;
-      ctx.lineWidth = ICON_BORDER;
-      ctx.stroke();
-
-      const chara = new Image();
-      chara.src = trainee != null ? ICON_PREFIX + trainees[picks[rank]].image : ICON_DEFAULT_IMAGE
-
-      chara.onload = () => {
-        ctx.save();
-        ctx.arc((width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
-                i * (ICON_WIDTH + PYRAMID_PADDING_Y) + ICON_WIDTH / 2+ HEADER_MARGIN,
-                 ICON_WIDTH / 2 - ICON_BORDER, 0, Math.PI*2);
-        ctx.closePath();
-        ctx.clip();
-        ctx.drawImage(chara,
-                      (width - ICON_WIDTH  * (row_icons_size) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2 + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
-                      i * (ICON_WIDTH + PYRAMID_PADDING_Y)+ HEADER_MARGIN,
-                      ICON_WIDTH, ICON_WIDTH);
-        ctx.restore();
-
-        // put rank
-        ctx.beginPath();
-        ctx.arc( (width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
-                i * (ICON_WIDTH + PYRAMID_PADDING_Y)+ HEADER_MARGIN+ICON_WIDTH -  ICON_RANK_FONT_SIZE/2,
-                ICON_RANK_FONT_SIZE / 2 + 1, 0, Math.PI*2);
-        ctx.fillStyle = ICON_RANK_BG_COLOR;
-        ctx.fill() ;
-        ctx.strokeStyle = ICON_RANK_BG_COLOR;
-        ctx.lineWidth = 0;
-        ctx.stroke();
-        drawString(ctx, rank + 1,
-                   (width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
-                   i * (ICON_WIDTH + PYRAMID_PADDING_Y)+ HEADER_MARGIN + ICON_WIDTH,
-                   ICON_RANK_FONT_SIZE, ICON_RANK_FONT_COLOR, "center")
-      };
-
-      // put name
-      drawString(ctx,
-                 trainee != null ? trainee.name_japanese : "",
-                 (width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
-                 (i + 1) * (ICON_WIDTH + PYRAMID_PADDING_Y) + ICON_WIDTH,
-                 ICON_RANK_NAME_SIZE, "#000", "center")
+  processPyramidCell((row_icons_size, i, j, rank) => {
+    const trainee = picks[rank] !== 'undefined' && picks[rank] != null && typeof trainees[picks[rank]] !== 'undefined'
+              ? trainees[picks[rank]] : null;
+    putTraineeCell(ctx, width, height, row_icons_size, i, j, trainee, rank)
   })
 }
 
 function createCanvas(picks = [], isReset = false) {
   var canvas = document.getElementById('ranking__pyramid');
+  !isReset && canvas.addEventListener('click', onClickCanvas, false);
   if (canvas.getContext){
     const ctx = canvas.getContext("2d");
     if ( !isReset ) {
@@ -183,6 +199,22 @@ function createCanvas(picks = [], isReset = false) {
       ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
     }
     drawPicture(ctx, canvas.width / CANVAS_SCALE , canvas.height / CANVAS_SCALE, picks)
+  }
+}
+
+function updateCanvas(picksToBe = [0]) {
+  var canvas = document.getElementById('ranking__pyramid');
+  if (canvas.getContext){
+    const ctx = canvas.getContext("2d");
+    // draw picture
+    processPyramidCell((row_icons_size, i,j, rank) => {
+        if(picks[rank] !== picksToBe[rank]){
+          const trainee = picksToBe[rank] !== 'undefined' && picksToBe[rank] != null && typeof trainees[picksToBe[rank]] !== 'undefined'
+                    ? trainees[picksToBe[rank]] : null;
+          putTraineeCell(ctx, canvas.width / CANVAS_SCALE, canvas.height / CANVAS_SCALE, row_icons_size, i, j, trainee, rank)
+        }
+    })
+    picks = picksToBe;
   }
 }
 
@@ -195,8 +227,17 @@ function download(event){
     link.click();
 }
 
-function onChangeTrainees(picks){
-  createCanvas(picks, true)
+function changePicks(picks){
+  updateCanvas(picks)
+}
+
+function onClickCanvas(e){
+    var rect = e.target.getBoundingClientRect();
+    x = e.clientX - rect.left;
+    y = e.clientY - rect.top;
+
+   console.log(x + " " + y)
+   changePicks([0, 50])
 }
 
 var currentBorder = 98;
