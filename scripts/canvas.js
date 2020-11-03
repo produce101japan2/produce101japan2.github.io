@@ -26,7 +26,9 @@ const PYRAMID_ROWS = [1, 2, 3, 5];
 
 const FONT_DEFAULT = "'serif'";
 
-let trainees = []
+let trainees = [];
+let draggingStart = {};
+let dragging = false;
 
 // Takes in name of csv and populates necessary data in table
 function readFromCSV(path, callback) {
@@ -190,7 +192,10 @@ function drawPicture(ctx, width, height, picks){
 
 function createCanvas(picks = [], isReset = false) {
   var canvas = document.getElementById('ranking__pyramid');
-  !isReset && canvas.addEventListener('click', onClickCanvas, false);
+  if (!isReset) {
+    canvas.addEventListener('mousedown', onMouseDown, false);
+    canvas.addEventListener('mouseup', onClickCanvas, false);
+  }
   if (canvas.getContext){
     const ctx = canvas.getContext("2d");
     if ( !isReset ) {
@@ -230,26 +235,64 @@ function download(event){
 function deletePick(rank){
   const picksToBe = picks.slice(0, picks.length);
   picksToBe[rank] = null;
-  updateCanvas(picksToBe)
+  updateCanvas(picksToBe);
+}
+
+function switchPick(start, end){
+  const picksToBe = picks.slice(0, picks.length);
+  const tmpPick = picksToBe[start];
+  picksToBe[start] = picksToBe[end];
+  picksToBe[end] = tmpPick;
+  updateCanvas(picksToBe);
+}
+
+function getRankFrom(width, point){
+  const x = point.x;
+  const y = point.y;
+  let result = null;
+  processPyramidCell((row_icons_size, i, j, rank) => {
+   const cellArea = {
+     x: (width- (ICON_WIDTH + PYRAMID_PADDING_X) * row_icons_size + PYRAMID_PADDING_X) / 2 + (ICON_WIDTH + PYRAMID_PADDING_X) * j,
+     xEnd: (width - (ICON_WIDTH + PYRAMID_PADDING_X) * row_icons_size + PYRAMID_PADDING_X) /2 + (ICON_WIDTH + PYRAMID_PADDING_X) * j + ICON_WIDTH,
+     y:  i * (ICON_WIDTH + PYRAMID_PADDING_Y) + HEADER_MARGIN,
+     yEnd:  i * (ICON_WIDTH + PYRAMID_PADDING_Y) + HEADER_MARGIN + ICON_WIDTH,
+   }
+   if(x >= cellArea.x && x <= cellArea.xEnd && y >= cellArea.y && y <= cellArea.yEnd) {
+      result = rank;
+   }
+  });
+  return result;
 }
 
 function onClickCanvas(e){
   const rect = e.target.getBoundingClientRect();
   const x = (e.clientX - rect.left);
   const y = (e.clientY - rect.top);
+  const point = {
+   x: e.clientX - rect.left,
+   y: e.clientY - rect.top
+  }
 
-  processPyramidCell((row_icons_size, i, j, rank) => {
-   const cellArea = {
-     x: (e.target.width / CANVAS_SCALE - (ICON_WIDTH + PYRAMID_PADDING_X) * row_icons_size + PYRAMID_PADDING_X) / 2 + (ICON_WIDTH + PYRAMID_PADDING_X) * j,
-     xEnd: (e.target.width / CANVAS_SCALE - (ICON_WIDTH + PYRAMID_PADDING_X) * row_icons_size + PYRAMID_PADDING_X) /2 + (ICON_WIDTH + PYRAMID_PADDING_X) * j + ICON_WIDTH,
-     y:  i * (ICON_WIDTH + PYRAMID_PADDING_Y) + HEADER_MARGIN,
-     yEnd:  i * (ICON_WIDTH + PYRAMID_PADDING_Y) + HEADER_MARGIN + ICON_WIDTH,
-   }
-   if(x >= cellArea.x && x <= cellArea.xEnd && y >= cellArea.y && y <= cellArea.yEnd) {
-     deletePick(rank);
-   }
-  })
+  const rank = getRankFrom(e.target.width / CANVAS_SCALE, point)
+  if (typeof draggingStart.x !== 'undefined') {
+    const startRank = getRankFrom(e.target.width / CANVAS_SCALE, draggingStart)
+    if(startRank == rank){
+      deletePick(rank);
+    }else if(startRank != null && rank != null){
+      switchPick(startRank, rank);
+    }
+    draggingStart = {};
+  }
+}
 
+function onMouseDown(e){
+  const rect = e.target.getBoundingClientRect();
+  if (typeof draggingStart.x === 'undefined') {
+    draggingStart = {
+       x: e.clientX - rect.left,
+       y: e.clientY - rect.top
+    }
+  }
 }
 
 var currentBorder = 98;
