@@ -1,3 +1,4 @@
+const MEMBER_FILE = "trainee_info.csv?201910121652";
 const CANVAS_SCALE = 2;
 const ICON_WIDTH = 60;
 const ICON_PREFIX = "assets/trainees/"
@@ -298,7 +299,7 @@ function onMouseDown(e){
 var currentBorder = 98;
 var picks = [0, 1, 2, null, 25]
 
-readFromCSV("./trainee_info.csv?201910121652",
+readFromCSV(MEMBER_FILE,
             (t) => {
               trainees = t;
               createCanvas(picks);
