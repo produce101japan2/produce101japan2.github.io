@@ -3,6 +3,9 @@ const ICON_PREFIX = "assets/trainees/"
 const ICON_DEFAULT_IMAGE = ICON_PREFIX+"emptyrank.png";
 const ICON_BORDER = 2;
 const ICON_DEFAULT_LINE_COLOR = "#707070";
+const ICON_RANK_FONT_DEFAULT = 8;
+const ICON_RANK_FONT_COLOR = "#fff";
+const ICON_RANK_BG_COLOR = "#0086ff";
 const PYRAMID_PADDING_X = 50;
 const PYRAMID_PADDING_Y = 40;
 const CANVAS_SCALE = 2;
@@ -73,27 +76,45 @@ function drawPicture(ctx, width, height, icons_arr = [1, 2, 3, 5]){
                ICON_WIDTH / 2 - ICON_BORDER, 0, Math.PI*2);
       ctx.closePath();
       ctx.strokeStyle = ICON_DEFAULT_LINE_COLOR;
-      ctx.lineWidth = ICON_BORDER ;
+      ctx.lineWidth = ICON_BORDER;
       ctx.stroke();
   })
 
   // draw picture
   processPyramidCell(icons_arr, (row_icons_size, i,j) => {
-      ctx.arc((width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
-              i * (ICON_WIDTH + PYRAMID_PADDING_Y) + ICON_WIDTH / 2+ HEADER_MARGIN,
-               ICON_WIDTH / 2 - ICON_BORDER, 0, Math.PI*2);
-      ctx.closePath();
-  })
-  ctx.clip();
-
-  processPyramidCell(icons_arr, (row_icons_size, i,j) => {
       const chara = new Image();
       chara.src = ICON_DEFAULT_IMAGE;
       chara.onload = () => {
+        ctx.save();
+        ctx.arc((width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
+                i * (ICON_WIDTH + PYRAMID_PADDING_Y) + ICON_WIDTH / 2+ HEADER_MARGIN,
+                 ICON_WIDTH / 2 - ICON_BORDER, 0, Math.PI*2);
+        ctx.closePath();
+        ctx.clip();
         ctx.drawImage(chara,
                       (width - ICON_WIDTH  * (row_icons_size) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2 + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
                       i * (ICON_WIDTH + PYRAMID_PADDING_Y)+ HEADER_MARGIN,
                       ICON_WIDTH, ICON_WIDTH);
+        ctx.restore();
+
+        // put rank
+        let rank_sum = 0;
+        for(let k = 0; k < i; k++){
+          rank_sum += icons_arr[k];
+        }
+        ctx.beginPath();
+        ctx.arc( (width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
+                i * (ICON_WIDTH + PYRAMID_PADDING_Y)+ HEADER_MARGIN+ICON_WIDTH -  ICON_RANK_FONT_DEFAULT/2,
+                ICON_RANK_FONT_DEFAULT / 2 + 1, 0, Math.PI*2);
+        ctx.fillStyle = ICON_RANK_BG_COLOR;
+        ctx.fill() ;
+        ctx.strokeStyle = ICON_RANK_BG_COLOR;
+        ctx.lineWidth = 0;
+        ctx.stroke();
+        drawString(ctx, rank_sum + j + 1,
+                   (width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
+                   i * (ICON_WIDTH + PYRAMID_PADDING_Y)+ HEADER_MARGIN+ICON_WIDTH,
+                   ICON_RANK_FONT_DEFAULT, ICON_RANK_FONT_COLOR, "center")
       };
   })
 
