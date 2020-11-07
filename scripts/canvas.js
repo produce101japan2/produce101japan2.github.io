@@ -26,7 +26,7 @@ const HEADER_LOGO_IMG = "assets/logo.svg";
 const PYRAMID_ROWS = [1, 2, 3, 5];
 const PYRAMID_MAX = 11; // sum of PYRAMID_ROWS
 
-const FONT_DEFAULT = "'serif'";
+const FONT_DEFAULT = "'M PLUS Rounded 1c', 'Open Sans', sans-serif";
 
 let trainees = [];
 let draggingStart = {};

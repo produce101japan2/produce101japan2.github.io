@@ -21,6 +21,13 @@
   --f-rank: #a6a6a4;
   --x-rank: #000000;
   --no-rank: #707070;
+
+  /* font */
+  --font-family: 'M PLUS Rounded 1c', 'Open Sans', sans-serif;
+}
+
+button {
+  font-family: var( --font-family);
 }
 
 p {
@@ -29,7 +36,7 @@ p {
 
 body {
   margin: 0;
-  font-family: 'Open Sans', sans-serif;
+  font-family: var( --font-family);
   display: inline-block;
   min-width: 100%;
   /*TODO: I had the weirdest bug where if i don't have this background white the top banner would disappear
@@ -70,19 +77,12 @@ body {
 }
 #trainee_picker__filter-input {
   padding: 5px;
-  padding-left: 25px;
   height: 100%;
-  width: 100%;
   box-sizing: border-box;
   border-radius: 3px;
   background-color: var(--search-gray);
   border: none;
   outline: 0;
-  /* setting up search icon */
-  background-image: url("assets/search.png");
-  background-size: 10px 10px;
-  background-position: 7px 7px;
-  background-repeat: no-repeat;
 }
 ::placeholder {
   color: var(--search-text-gray);
@@ -228,6 +228,23 @@ body {
 	height: 30px;
 }
 
+#ranking__pyramid-tools-copy {
+  margin: 0;
+  margin-left: -65px;
+  height: inherit;
+  width: 65px;
+
+}
+
+#ranking__pyramid-tools-dl {
+  height: inherit;
+}
+
+#ranking__pyramid-tools-text {
+  height: inherit;
+  padding: 0px;
+}
+
 /* Generic Styles */
 .flex-container {
   display: flex;
@@ -277,6 +294,6 @@ footer p{
   }
 
   #ranking__pyramid-tools{
-    padding: 0px 5%;
+    padding: 0px 10px;
   }
 }
