@@ -197,15 +197,14 @@ body {
 
 .table__entry-text {
   margin: auto 5px auto 5px;
-  /* margin: auto auto; */
-}
-.table__entry-text .name {
   font-size: 12px;
   color: var(--name-gray);
 }
-.table__entry .hangul {
-  font-size: 12px;
-  color: var(--other-name-gray);
+.table__entry-text .rank {
+  display: block;
+}
+.table__entry .name.sub {
+  font-size: 11px;
 }
 .table__entry .companyandyear {
   font-size: 10px;

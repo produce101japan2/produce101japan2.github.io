@@ -1,21 +1,24 @@
 let showEliminated = false;
 let showTop11 = false;
-let isJapanese = false;
 
-function tableClicked(trainee) {
+function clickEntry(trainee) {
   const picksToBe = picks.slice(0, picks.length);
+  for (let i = 0; i < PYRAMID_MAX; i++) {
+   if(picks[i] === trainee.id){
+      picksToBe[i] = null;
+      trainee.selected = false;
+      updateCanvas(picksToBe);
+      return;
+   }
+  }
   for (let i = 0; i < PYRAMID_MAX; i++) {
     if (typeof picks[i] === 'undefined' || picks[i] === null) {
       picksToBe[i] = trainee.id;
       trainee.selected = true;
-      break;
-    } else if(picks[i] === trainee.id){
-      picksToBe[i] = null;
-      trainee.selected = false;
-      break;
+      updateCanvas(picksToBe);
+      return;
     }
   }
-  updateCanvas(picksToBe);
 }
 
 function renderBox(trainees, picks){
@@ -24,7 +27,7 @@ function renderBox(trainees, picks){
     trainee_picker.insertAdjacentHTML("beforeend", getTableEntryHTML(trainees[index]));
     let insertedEntry = trainee_picker.lastChild;
     insertedEntry.addEventListener("click", event => {
-      tableClicked(trainees[index]);
+      clickEntry(trainees[index]);
     });
   });
 }
@@ -46,8 +49,8 @@ function getTableEntryHTML(trainee) {
     </div>
     <div class="table__entry-text">
       <span class="rank">${trainee.rank}</span>
-      <span class="name"><strong>${isJapanese?trainee.name_japanese:trainee.name_romanized}</strong></span>
-      <span class="hangul">(${isJapanese?trainee.name_romanized:trainee.name_japanese})</span>
+      <span class="name"><strong>${trainee.name}</strong></span>
+      <span class="name sub">(${trainee.name_sub})</span>
     </div>
   </div>`;
   return tableEntry;

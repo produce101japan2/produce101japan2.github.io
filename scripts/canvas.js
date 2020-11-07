@@ -28,9 +28,9 @@ const PYRAMID_MAX = 11; // sum of PYRAMID_ROWS
 
 const FONT_DEFAULT = "'M PLUS Rounded 1c', 'Open Sans', sans-serif";
 
+let isJapanese = false;
 let trainees = [];
 let draggingStart = {};
-let dragging = false;
 
 function readFromCSV(path, callback) {
   var rawFile = new XMLHttpRequest();
@@ -56,7 +56,8 @@ function convertCSVArrayToTraineeData(csvArrays) {
     trainee.image = traineeArray[0] + ".jpg";
     trainee.name_romanized = traineeArray[1];
     trainee.name_japanese = traineeArray[2];
-    trainee.name = traineeArray[2]; // TODO lang
+    trainee.name = isJapanese?traineeArray[2]:traineeArray[1];
+    trainee.name_sub = isJapanese?traineeArray[1]:traineeArray[2];
     trainee.rank = traineeArray[4] || 1;
     trainee.eliminated = trainee.rank > currentBorder; // t if eliminated
     trainee.grade = traineeArray[3];
@@ -297,8 +298,23 @@ function onMouseDown(e){
   }
 }
 
+function setLang() {
+  var urlParams = new URLSearchParams(window.location.search);
+  if(urlParams.get("lang")){
+    isJapanese = urlParams.get("lang") === "ja"
+  }else{
+    isJapanese = (window.navigator.userLanguage || window.navigator.language || window.navigator.browserLanguage).substr(0,2) === "ja" ;
+  }
+
+  if(isJapanese){
+    document.documentElement.lang = "ja";
+  }
+}
+
 var currentBorder = 98;
 var picks = [];
+
+setLang();
 
 readFromCSV(MEMBER_FILE,
             (t) => {
