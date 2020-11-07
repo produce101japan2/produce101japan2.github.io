@@ -20,13 +20,13 @@ function tableClicked(trainee) {
 
 function renderBox(trainees, picks){
   const trainee_picker = document.getElementById("trainee_picker__container");
-  for (let i = 0; i < trainees.length; i++) {
-    trainee_picker.insertAdjacentHTML("beforeend", getTableEntryHTML(trainees[i]));
+  Object.keys(trainees).forEach(index =>{
+    trainee_picker.insertAdjacentHTML("beforeend", getTableEntryHTML(trainees[index]));
     let insertedEntry = trainee_picker.lastChild;
-    insertedEntry.addEventListener("click", function (event) {
-      tableClicked(trainees[i]);
+    insertedEntry.addEventListener("click", event => {
+      tableClicked(trainees[index]);
     });
-  }
+  });
 }
 
 function getTableEntryHTML(trainee) {

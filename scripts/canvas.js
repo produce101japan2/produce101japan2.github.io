@@ -32,7 +32,6 @@ let trainees = [];
 let draggingStart = {};
 let dragging = false;
 
-// Takes in name of csv and populates necessary data in table
 function readFromCSV(path, callback) {
   var rawFile = new XMLHttpRequest();
   rawFile.open("GET", path, false);
@@ -50,7 +49,8 @@ function readFromCSV(path, callback) {
 }
 
 function convertCSVArrayToTraineeData(csvArrays) {
-  return trainees = csvArrays.map(function(traineeArray, index) {
+  const trainees = {};
+  csvArrays.forEach(traineeArray => {
     const trainee = {};
     trainee.id = parseInt(traineeArray[0].split('_')[0]) - 1;
     trainee.image = traineeArray[0] + ".jpg";
@@ -62,17 +62,18 @@ function convertCSVArrayToTraineeData(csvArrays) {
     trainee.grade = traineeArray[3];
     // unused
     trainee.top11 = false; // sets trainee to top 11 if 't' appears in 6th column
-    return trainee;
+    trainees[trainee.id] = trainee;
   });
+  return trainees;
 }
 
 function zeroPadding(num,length){
   return ('0' + num).slice(-length);
 }
 
-function drawString(ctx, text, posX, posY, fontSize = 16, textColor = '#000000', align = "start", font = FONT_DEFAULT) {
+function drawString(ctx, text, posX, posY, fontSize = 16, textColor = '#000000', align = "start") {
 	ctx.save();
-	ctx.font = fontSize + "px " + font;
+	ctx.font = fontSize + "px " + FONT_DEFAULT;
 	ctx.fillStyle = textColor;
   ctx.textAlign = align;
   ctx.fillText(text, posX, posY);
@@ -297,7 +298,7 @@ function onMouseDown(e){
 }
 
 var currentBorder = 98;
-var picks = []
+var picks = [];
 
 readFromCSV(MEMBER_FILE,
             (t) => {
@@ -305,4 +306,4 @@ readFromCSV(MEMBER_FILE,
               createCanvas(picks);
               renderBox(trainees);
             });
-document.getElementById("download").onclick = download
+document.getElementById("ranking__pyramid-tools-dl").onclick = download
