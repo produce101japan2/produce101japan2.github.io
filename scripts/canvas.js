@@ -54,8 +54,6 @@ function convertCSVArrayToTraineeData(csvArrays) {
     const trainee = {};
     trainee.id = parseInt(traineeArray[0].split('_')[0]) - 1;
     trainee.image = traineeArray[0] + ".jpg";
-    trainee.name_romanized = traineeArray[1];
-    trainee.name_japanese = traineeArray[2];
     trainee.name = isJapanese?traineeArray[2]:traineeArray[1];
     trainee.name_sub = isJapanese?traineeArray[1]:traineeArray[2];
     trainee.rank = traineeArray[4] || 1;
@@ -160,7 +158,7 @@ function putTraineeCell(ctx, width, height, row_icons_size, i, j, trainee, rank)
 
    // put name
    drawString(ctx,
-              trainee != null ? trainee.name_japanese : "",
+              trainee != null ? trainee.name : "",
               (width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
               (i + 1) * (ICON_WIDTH + PYRAMID_PADDING_Y) + ICON_WIDTH,
               ICON_RANK_NAME_SIZE, "#000", "center")
