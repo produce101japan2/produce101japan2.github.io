@@ -28,11 +28,15 @@ function clickEntry(trainee, element) {
   }
 }
 
-function renderBox(trainees, picks){
-  const trainee_picker = document.getElementById("trainee_picker__container");
-  Object.keys(trainees).forEach(index =>{
-    trainee_picker.insertAdjacentHTML("beforeend", getTableEntryHTML(trainees[index]));
-    let insertedEntry = trainee_picker.lastChild;
+function renderBox(trainees, picks, sortOrder){
+  if(typeof sortOrder === 'undefined'){
+    sortOrder = getSortOrder(trainees, "id", false);
+  }
+  const traineePicker = document.getElementById("trainee_picker__container");
+  traineePicker.innerHTML = "";
+  sortOrder.forEach(index =>{
+    traineePicker.insertAdjacentHTML("beforeend", getTableEntryHTML(trainees[index]));
+    let insertedEntry = traineePicker.lastChild;
     insertedEntry.addEventListener("click", event => {
       clickEntry(trainees[index], event.currentTarget.getElementsByClassName("trainee_picker__container__entry-icon")[0]);
     });
@@ -57,4 +61,21 @@ function getTableEntryHTML(trainee) {
     </div>
   </div>`;
   return tableEntry;
+}
+
+function getSortOrder(trainees, field, isReverse) {
+  return Object.keys(trainees).sort((a, b) => {
+      if (trainees[a][field] > trainees[b][field]) {
+        return isReverse? -1 : 1;
+      } else {
+        return isReverse? 1 : -1;
+      }
+    });
+}
+
+function addEventToTools(trainees){
+  document.getElementById("button__sortAZ").onclick =
+    () => renderBox(trainees, picks, getSortOrder(trainees, "id", false));
+  document.getElementById("button__sort19").onclick =
+    () => renderBox(trainees, picks, getSortOrder(trainees, "rank", false));
 }

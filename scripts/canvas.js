@@ -316,6 +316,6 @@ readFromCSV(MEMBER_FILE,
             (t) => {
               trainees = t;
               createCanvas(picks);
-              renderBox(trainees);
+              renderBox(trainees, picks);
+              addEventToTools(trainees);
             });
-document.getElementById("ranking__pyramid-tools-dl").onclick = download
