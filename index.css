@@ -92,19 +92,19 @@ body {
 #trainee_picker__container {
   overflow-y: scroll;
 }
-.table__entry {
+.trainee_picker__container__entry {
   display: flex;
   align-items: flex-start;
   border-bottom: 1px solid var(--produce-gray);
   cursor: pointer;
 }
-.table__entry:last-child {
+.trainee_picker__container__entry:last-child {
 	border-bottom: none;
 }
-.table__entry:hover {
+.trainee_picker__container__entry:hover {
   background-color: #f0f0f0;
 }
-.table__entry-icon {
+.trainee_picker__container__entry-icon {
   border-radius: 50%;
   width: 60px;
   height: 60px;
@@ -113,17 +113,17 @@ body {
   box-sizing: border-box;
   position: relative;
 }
-.table__entry-img {
+.trainee_picker__container__entry-img {
   border-radius: 50%;
   width: inherit;
   height: inherit;
 }
-.eliminated .table__entry-img {
+.eliminated .trainee_picker__container__entry-img {
   -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
   filter: grayscale(100%);
 }
 /* only applied when an entry is selected/checked */
-.table__entry-check {
+.trainee_picker__container__entry-check {
   position: absolute;
   top: 0;
   left: 0;
@@ -136,7 +136,7 @@ body {
   padding: 10px;
   box-sizing: border-box;
 }
-.table__entry-icon-border {
+.trainee_picker__container__entry-icon-border {
   position: absolute;
   top: 0;
   left: 0;
@@ -145,7 +145,7 @@ body {
   border-radius: 50%;
   box-sizing: border-box;
 }
-.table__entry-icon-crown, .ranking__entry-icon-crown {
+.trainee_picker__container__entry-icon-crown, .ranking__entry-icon-crown {
   position: absolute;
   padding: 2px;
   box-sizing: border-box;
@@ -185,28 +185,25 @@ body {
 .no-rank-border {
   border: none;
 }
-.eliminated .table__entry-icon-border {
+.eliminated .trainee_picker__container__entry-icon-border {
   border: 5px solid var(--no-rank);
 }
 .eliminated .ranking__entry-icon-border {
   border: 5px solid var(--no-rank);
 }
-.ranking__entry-icon-border.dragged-over { /* defines a border for when you drag over a trainee in ranking */
-  border: 5px solid var(--checked-blue);
-}
 
-.table__entry-text {
+.trainee_picker__container__entry-text {
   margin: auto 5px auto 5px;
   font-size: 12px;
   color: var(--name-gray);
 }
-.table__entry-text .rank {
+.trainee_picker__container__entry-text .rank {
   display: block;
 }
-.table__entry .name.sub {
+.trainee_picker__container__entry .name.sub {
   font-size: 11px;
 }
-.table__entry .companyandyear {
+.trainee_picker__container__entry .companyandyear {
   font-size: 10px;
   color: var(--affil-gray);
   display: block;
@@ -271,13 +268,6 @@ footer p{
     font-size: 10px;
     margin-top: 10px;
     display: none;
-}
-
-#current_date{
-  margin-top: 5px;
-  margin-bottom: 5px;
-  font-size: 12px;
-  text-align: right;
 }
 
 @media screen and (max-width: 540px) {
