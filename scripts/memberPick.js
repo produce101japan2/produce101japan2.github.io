@@ -10,7 +10,6 @@ function clickEntry(trainee, element) {
   for (let i = 0; i < PYRAMID_MAX; i++) {
     if (picks[i] === trainee.id) {
       picksToBe[i] = null;
-      trainee.selected = false;
       updateCanvas(picksToBe);
       element.getElementsByClassName(CHECKED_CLASS)[0].remove();
       return;
@@ -20,12 +19,23 @@ function clickEntry(trainee, element) {
   for (let i = 0; i < PYRAMID_MAX; i++) {
     if (typeof picks[i] === 'undefined' || picks[i] === null) {
       picksToBe[i] = trainee.id;
-      trainee.selected = true;
       updateCanvas(picksToBe);
       element.insertAdjacentHTML("beforeend", CHECKED_IMAGE);
       return;
     }
   }
+}
+
+function deleteEntryPick(id){
+  const picksToBe = picks.slice(0, picks.length);
+  Array.from(document.getElementsByClassName('trainee_picker__container__entry'))
+      .forEach(e =>{
+        if(e.dataset.id == id){
+          if(e.getElementsByClassName(CHECKED_CLASS).length > 0){
+            e.getElementsByClassName(CHECKED_CLASS)[0].remove();
+          }
+        }
+      });
 }
 
 function renderBox(trainees, picks, sortOrder){
@@ -35,7 +45,7 @@ function renderBox(trainees, picks, sortOrder){
   const traineePicker = document.getElementById("trainee_picker__container");
   traineePicker.innerHTML = "";
   sortOrder.forEach(index =>{
-    traineePicker.insertAdjacentHTML("beforeend", getTableEntryHTML(trainees[index]));
+    traineePicker.insertAdjacentHTML("beforeend", getTableEntryHTML(trainees[index], picks.includes(trainees[index].id)));
     let insertedEntry = traineePicker.lastChild;
     insertedEntry.addEventListener("click", event => {
       clickEntry(trainees[index], event.currentTarget.getElementsByClassName("trainee_picker__container__entry-icon")[0]);
@@ -43,15 +53,15 @@ function renderBox(trainees, picks, sortOrder){
   });
 }
 
-function getTableEntryHTML(trainee) {
+function getTableEntryHTML(trainee, selected) {
   let eliminated = (showEliminated && trainee.eliminated) && "eliminated";
   const tableEntry = `
-  <div class="trainee_picker__container__entry ${eliminated}">
+  <div class="trainee_picker__container__entry ${eliminated}" data-id="${trainee.id}">
     <div class="trainee_picker__container__entry-icon">
       <img class="trainee_picker__container__entry-img" src="assets/trainees/${trainee.image}" />
       <div class="trainee_picker__container__entry-icon-border ${trainee.grade}-rank-border"></div>
       ${
-        trainee.selected ? CHECKED_IMAGE: ""
+        selected ? CHECKED_IMAGE: ""
       }
     </div>
     <div class="trainee_picker__container__entry-text">

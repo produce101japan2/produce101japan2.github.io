@@ -235,6 +235,8 @@ function download(event){
 
 function deletePick(rank){
   const picksToBe = picks.slice(0, picks.length);
+  const target = picksToBe[rank];
+  deleteEntryPick(target);
   picksToBe[rank] = null;
   updateCanvas(picksToBe);
 }
