@@ -2,26 +2,6 @@ let showEliminated = false;
 let showTop11 = false;
 let isJapanese = false;
 
-function addRankedTrainee(trainee) {
-  for (let i = 0; i < picks.length; i++) {
-    if (picks[i] === -1) { // if spot is blank denoted by -1 id
-      picks[i] = trainee;
-      return true;
-    }
-  }
-  return false;
-}
-
-function removeRankedTrainee(trainee) {
-  for (let i = 0; i < picks.length; i++) {
-    if (picks[i] === trainee.id) { // if trainee's match
-      picks[i] = newTrainee();
-      return true;
-    }
-  }
-  return false;
-}
-
 function tableClicked(trainee) {
   const picksToBe = picks.slice(0, picks.length);
   for (let i = 0; i < PYRAMID_MAX; i++) {
@@ -29,20 +9,19 @@ function tableClicked(trainee) {
       picksToBe[i] = trainee.id;
       trainee.selected = true;
       break;
-    }else if(picks[i] === trainee.id){
+    } else if(picks[i] === trainee.id){
       picksToBe[i] = null;
       trainee.selected = false;
       break;
     }
   }
-  console.log(picksToBe);
   updateCanvas(picksToBe);
 }
 
 function renderBox(trainees, picks){
   const trainee_picker = document.getElementById("trainee_picker__container");
   for (let i = 0; i < trainees.length; i++) {
-    trainee_picker.insertAdjacentHTML("beforeend", populateTableEntry(trainees[i]));
+    trainee_picker.insertAdjacentHTML("beforeend", getTableEntryHTML(trainees[i]));
     let insertedEntry = trainee_picker.lastChild;
     insertedEntry.addEventListener("click", function (event) {
       tableClicked(trainees[i]);
@@ -50,8 +29,7 @@ function renderBox(trainees, picks){
   }
 }
 
-function populateTableEntry(trainee) {
-  // eliminated will have value "eliminated" only if trainee is eliminated and showEliminated is true, otherwise this is ""
+function getTableEntryHTML(trainee) {
   let eliminated = (showEliminated && trainee.eliminated) && "eliminated";
   let top11 = (showTop11 && trainee.top11) && "top11";
   const tableEntry = `

@@ -193,7 +193,7 @@ function drawPicture(ctx, width, height, picks){
 }
 
 function createCanvas(picks = [], isReset = false) {
-  var canvas = document.getElementById('ranking__pyramid');
+  var canvas = document.getElementById('ranking__pyramid-canvas');
   if (!isReset) {
     canvas.addEventListener('mousedown', onMouseDown, false);
     canvas.addEventListener('mouseup', onClickCanvas, false);
@@ -210,7 +210,7 @@ function createCanvas(picks = [], isReset = false) {
 }
 
 function updateCanvas(picksToBe) {
-  var canvas = document.getElementById('ranking__pyramid');
+  var canvas = document.getElementById('ranking__pyramid-canvas');
   if (canvas.getContext){
     const ctx = canvas.getContext("2d");
     // draw picture
@@ -226,7 +226,7 @@ function updateCanvas(picksToBe) {
 }
 
 function download(event){
-    let canvas = document.getElementById("ranking__pyramid");
+    let canvas = document.getElementById("ranking__pyramid-canvas");
 
     let link = document.createElement("a");
     link.href = canvas.toDataURL("image/png");

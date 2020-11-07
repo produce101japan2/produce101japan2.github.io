@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <meta name="google" content="notranslate" />
+  <meta name="google" content="notranslate"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <meta name="google-site-verification" content="7p1WafVpQTLkZyuTgblWByOqOKhbZ05coC5oHC3f8b0"/>
@@ -22,29 +22,23 @@
   <title>Produce 101 Japan 推しMENメーカー</title>
 </head>
 <body>
-<canvas id="ranking__pyramid" width="1080" height="1080">
-  図形を表示するには、canvasタグをサポートしたブラウザが必要です。
-</canvas>
-<div id="trainee_picker">
-  <div id="trainee_picker__filter-container">
-    <input id="trainee_picker__filter-input" oninput="filterTrainees(event)" type="text" placeholder="Search"/>
+<div class="flex-container">
+  <div id="ranking__pyramid">
+    <canvas id="ranking__pyramid-canvas" width="1080" height="1080">
+      図形を表示するには、canvasタグをサポートしたブラウザが必要です。
+    </canvas>
+    <div id="ranking__pyramid-tools">
+      <button id="download">download</button>
+    </div>
   </div>
-  <div id="trainee_picker__container">
-    <!-- <div class="table__entry">
-      <div class="table__entry-icon">
-        <img class="table__entry-img" src="assets/trainees/LeeGaeun.jpg" />
-        <div class="table__entry-icon-border a-rank-border"></div>
-        <img class="table__entry-check" src="assets/check.png"/>
-      </div>
-      <div class="table__entry-text">
-        <strong><span class="name">Lee Gaeun</span></strong>
-        <span class="hangul">(이가은)</span>
-        <span class="company">PLEDIS ENTERTAINMENT</span>
-      </div>
-    </div> -->
+  <div id="trainee_picker">
+    <div id="trainee_picker__filter-container">
+      <input id="trainee_picker__filter-input" oninput="filterTrainees(event)" type="text" placeholder="Search"/>
+    </div>
+    <div id="trainee_picker__container">
+    </div>
   </div>
 </div>
-  <button id="download">download</button>
 <footer>
   <p>switch to <a href="?lang=en">English</a> | <a href="?lang=ja">日本語</a></p>
   <p><a href="list.html">推しMENリスト</a> | <a href="https://produce48.github.io/">produce48</a> | <a
