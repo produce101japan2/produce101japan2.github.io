@@ -60,8 +60,6 @@ function convertCSVArrayToTraineeData(csvArrays) {
     trainee.rank = traineeArray[4] || 1;
     trainee.eliminated = trainee.rank > CURRENT_BORDER; // t if eliminated
     trainee.grade = traineeArray[3];
-    // unused
-    trainee.top11 = false; // sets trainee to top 11 if 't' appears in 6th column
     trainees[trainee.id] = trainee;
   });
   return trainees;
