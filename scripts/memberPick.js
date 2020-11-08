@@ -1,5 +1,6 @@
 let showEliminated = false;
 let showTop11 = false;
+let sortOrder;
 
 const CHECKED_CLASS = "trainee_picker__container__entry-check";
 const CHECKED_IMAGE = `<img class="${CHECKED_CLASS}" src="assets/check.png"/>`;
@@ -38,7 +39,7 @@ function deleteEntryPick(id){
       });
 }
 
-function renderBox(trainees, picks, sortOrder){
+function renderBox(trainees, picks){
   if(typeof sortOrder === 'undefined'){
     sortOrder = getSortOrder(trainees, "id", false);
   }
@@ -85,12 +86,12 @@ function getSortOrder(trainees, field, isReverse) {
 
 function searchMember(event) {
   const filterText = event.target.value.toLowerCase();
-  renderBox(trainees, picks,
-            Object.keys(trainees)
-                  .filter(key => {
-                     return includesIgnCase(trainees[key].name, filterText)
-                             || includesIgnCase(trainees[key].name_sub, filterText);
-                  }))
+  sortOrder = Object.keys(trainees)
+                    .filter(key => {
+                       return includesIgnCase(trainees[key].name, filterText)
+                               || includesIgnCase(trainees[key].name_sub, filterText);
+                    })
+  renderBox(trainees, picks)
 }
 
 function includesIgnCase(mainString, subString) {
@@ -99,7 +100,18 @@ function includesIgnCase(mainString, subString) {
 
 function addEventToTools(trainees){
   document.getElementById("button__sortAZ").onclick =
-    () => renderBox(trainees, picks, getSortOrder(trainees, "id", false));
+    () => {
+      sortOrder = getSortOrder(trainees, "id", false);
+      renderBox(trainees, picks);
+    }
   document.getElementById("button__sort19").onclick =
-    () => renderBox(trainees, picks, getSortOrder(trainees, "rank", false));
+    () => {
+      sortOrder = getSortOrder(trainees, "rank", false);
+      renderBox(trainees, picks);
+    }
+  document.getElementById("button__filter").onclick =
+    () => {
+      showEliminated = !showEliminated;
+      renderBox(trainees, picks);
+    }
 }

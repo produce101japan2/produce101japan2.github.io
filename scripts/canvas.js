@@ -1,5 +1,5 @@
 const MEMBER_FILE = "trainee_info.csv?201910121652";
-const CURRENT_BORDER = 98;
+const CURRENT_BORDER = 11;
 const CANVAS_SCALE = 2;
 const ICON_WIDTH = 60;
 const ICON_PREFIX = "assets/trainees/"
