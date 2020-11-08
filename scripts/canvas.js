@@ -102,65 +102,61 @@ function processPyramidCell(processCell){
 }
 
 function putTraineeCell(ctx, width, height, row_icons_size, i, j, trainee, rank) {
-   // reset
-   const cellStart = {
-     x: (width - (ICON_WIDTH + PYRAMID_PADDING_X) * row_icons_size) /2 + (ICON_WIDTH + PYRAMID_PADDING_X) * j,
-     y:  i * (ICON_WIDTH + PYRAMID_PADDING_Y) + HEADER_MARGIN
-   }
-   ctx.fillStyle = '#fff';
-   ctx.fillRect(cellStart.x,
-                cellStart.y,
-                ICON_WIDTH + PYRAMID_PADDING_X,
-                ICON_WIDTH + PYRAMID_PADDING_Y);
+  // pixel
+  const pCenterX = (width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j;
+  const pCenterY = i * (ICON_WIDTH + PYRAMID_PADDING_Y) + ICON_WIDTH / 2+ HEADER_MARGIN;
+  const pLeftX = (width - ICON_WIDTH  * (row_icons_size) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2 + ICON_WIDTH * j + PYRAMID_PADDING_X * j;
+  const pLeftY = i * (ICON_WIDTH + PYRAMID_PADDING_Y)+ HEADER_MARGIN;
 
-   // border
-   ctx.beginPath();
-   ctx.arc((width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
-           i * (ICON_WIDTH + PYRAMID_PADDING_Y) + ICON_WIDTH / 2 + HEADER_MARGIN,
-            ICON_WIDTH / 2 - ICON_BORDER, 0, Math.PI*2);
-   ctx.closePath();
-   ctx.strokeStyle = trainee != null ? ICON_LINE_COLOR[trainee.grade] : ICON_DEFAULT_LINE_COLOR;
-   ctx.lineWidth = ICON_BORDER;
-   ctx.stroke();
+  // reset
+  const cellStart = {
+   x: pLeftX - PYRAMID_PADDING_X / 2,
+   y: pLeftY
+  }
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(cellStart.x,
+               cellStart.y,
+               ICON_WIDTH + PYRAMID_PADDING_X,
+               ICON_WIDTH + PYRAMID_PADDING_Y);
 
-   const chara = new Image();
-   chara.src = trainee != null ? ICON_PREFIX + trainee.image : ICON_DEFAULT_IMAGE
+  // border
+  ctx.beginPath();
+  ctx.arc(pCenterX, pCenterY, ICON_WIDTH / 2 - ICON_BORDER, 0, Math.PI*2);
+  ctx.closePath();
+  ctx.strokeStyle = trainee != null ? ICON_LINE_COLOR[trainee.grade] : ICON_DEFAULT_LINE_COLOR;
+  ctx.lineWidth = ICON_BORDER;
+  ctx.stroke();
 
-   chara.onload = () => {
-     ctx.save();
-     ctx.arc((width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
-             i * (ICON_WIDTH + PYRAMID_PADDING_Y) + ICON_WIDTH / 2+ HEADER_MARGIN,
-              ICON_WIDTH / 2 - ICON_BORDER, 0, Math.PI*2);
-     ctx.closePath();
-     ctx.clip();
-     ctx.drawImage(chara,
-                   (width - ICON_WIDTH  * (row_icons_size) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2 + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
-                   i * (ICON_WIDTH + PYRAMID_PADDING_Y)+ HEADER_MARGIN,
-                   ICON_WIDTH, ICON_WIDTH);
-     ctx.restore();
+  const chara = new Image();
+  chara.src = trainee != null ? ICON_PREFIX + trainee.image : ICON_DEFAULT_IMAGE
 
-     // put rank
-     ctx.beginPath();
-     ctx.arc( (width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
-             i * (ICON_WIDTH + PYRAMID_PADDING_Y)+ HEADER_MARGIN+ICON_WIDTH -  ICON_RANK_FONT_SIZE/2,
-             ICON_RANK_FONT_SIZE / 2 + 1, 0, Math.PI*2);
-     ctx.fillStyle = ICON_RANK_BG_COLOR;
-     ctx.fill() ;
-     ctx.strokeStyle = ICON_RANK_BG_COLOR;
-     ctx.lineWidth = 0;
-     ctx.stroke();
-     drawString(ctx, rank + 1,
-                (width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
-                i * (ICON_WIDTH + PYRAMID_PADDING_Y)+ HEADER_MARGIN + ICON_WIDTH,
-                ICON_RANK_FONT_SIZE, ICON_RANK_FONT_COLOR, "center")
-   };
+  chara.onload = () => {
+    ctx.save();
+    ctx.arc(pCenterX, pCenterY, ICON_WIDTH / 2 - ICON_BORDER, 0, Math.PI*2);
+    ctx.closePath();
+    ctx.clip();
+    ctx.drawImage(chara, pLeftX, pLeftY, ICON_WIDTH, ICON_WIDTH);
+    ctx.restore();
 
-   // put name
-   drawString(ctx,
-              trainee != null ? trainee.name : "",
-              (width - ICON_WIDTH  * (row_icons_size - 1) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2  + ICON_WIDTH * j + PYRAMID_PADDING_X * j,
-              (i + 1) * (ICON_WIDTH + PYRAMID_PADDING_Y) + ICON_WIDTH,
-              ICON_RANK_NAME_SIZE, "#000", "center")
+    // put rank
+    ctx.beginPath();
+    ctx.arc(pCenterX, pCenterY + ICON_WIDTH / 2 - ICON_RANK_FONT_SIZE / 2, ICON_RANK_FONT_SIZE / 2 + 1, 0, Math.PI*2);
+    ctx.fillStyle = ICON_RANK_BG_COLOR;
+    ctx.fill() ;
+    ctx.strokeStyle = ICON_RANK_BG_COLOR;
+    ctx.lineWidth = 0;
+    ctx.stroke();
+    drawString(ctx, rank + 1, pCenterX, pCenterY + ICON_WIDTH / 2, ICON_RANK_FONT_SIZE, ICON_RANK_FONT_COLOR, "center")
+  };
+
+  // put name
+  drawString(ctx,
+            trainee != null ? trainee.name : "",
+            pCenterX,
+            (i + 1) * (ICON_WIDTH + PYRAMID_PADDING_Y) + ICON_WIDTH,
+            ICON_RANK_NAME_SIZE,
+            "#000",
+            "center")
 
 }
 
