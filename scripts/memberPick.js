@@ -113,5 +113,6 @@ function addEventToTools(trainees){
     () => {
       showEliminated = !showEliminated;
       renderBox(trainees, picks);
+      updateCanvas(picks, true);
     }
 }

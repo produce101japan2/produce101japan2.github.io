@@ -11,7 +11,8 @@ const ICON_LINE_COLOR = {
      b: "#f47f22",
      c: "#f6d12f",
      d: "#42b96d",
-     f: "#a6a6a4"
+     f: "#a6a6a4",
+     n: "#707070"
 }
 const ICON_RANK_FONT_SIZE = 8;
 const ICON_RANK_FONT_COLOR = "#fff";
@@ -107,25 +108,15 @@ function putTraineeCell(ctx, width, height, row_icons_size, i, j, trainee, rank)
   const pCenterY = i * (ICON_WIDTH + PYRAMID_PADDING_Y) + ICON_WIDTH / 2+ HEADER_MARGIN;
   const pLeftX = (width - ICON_WIDTH  * (row_icons_size) - PYRAMID_PADDING_X * (row_icons_size - 1)) / 2 + ICON_WIDTH * j + PYRAMID_PADDING_X * j;
   const pLeftY = i * (ICON_WIDTH + PYRAMID_PADDING_Y)+ HEADER_MARGIN;
+  const borderColor = trainee != null ? (showEliminated && trainee.eliminated) ? ICON_LINE_COLOR["n"] : ICON_LINE_COLOR[trainee.grade]
+                                       : ICON_DEFAULT_LINE_COLOR;
 
   // reset
-  const cellStart = {
-   x: pLeftX - PYRAMID_PADDING_X / 2,
-   y: pLeftY
-  }
   ctx.fillStyle = '#fff';
-  ctx.fillRect(cellStart.x,
-               cellStart.y,
+  ctx.fillRect(pLeftX - PYRAMID_PADDING_X / 2,
+               pLeftY,
                ICON_WIDTH + PYRAMID_PADDING_X,
                ICON_WIDTH + PYRAMID_PADDING_Y);
-
-  // border
-  ctx.beginPath();
-  ctx.arc(pCenterX, pCenterY, ICON_WIDTH / 2 - ICON_BORDER, 0, Math.PI*2);
-  ctx.closePath();
-  ctx.strokeStyle = trainee != null ? ICON_LINE_COLOR[trainee.grade] : ICON_DEFAULT_LINE_COLOR;
-  ctx.lineWidth = ICON_BORDER;
-  ctx.stroke();
 
   const chara = new Image();
   chara.src = trainee != null ? ICON_PREFIX + trainee.image : ICON_DEFAULT_IMAGE
@@ -137,6 +128,28 @@ function putTraineeCell(ctx, width, height, row_icons_size, i, j, trainee, rank)
     ctx.clip();
     ctx.drawImage(chara, pLeftX, pLeftY, ICON_WIDTH, ICON_WIDTH);
     ctx.restore();
+
+    if (trainee != null && showEliminated && trainee.eliminated) {
+      let grayTarget = ctx.getImageData(pLeftX * 2, pLeftY * 2, ICON_WIDTH*2, ICON_WIDTH*2);
+      let grayTargetData = grayTarget.data;
+      for (let k = 0; k < grayTargetData.length; k += 4) {
+        let y = 0.2126 *  grayTargetData[k] + 0.7152 *grayTargetData[k + 1]  + 0.0722 * grayTargetData[k + 2]
+        y = parseInt(y, 10)
+
+        const avg = (grayTargetData[k] + grayTargetData[k + 1] + grayTargetData[i + 2]) / 3;
+        grayTargetData[k] = grayTargetData[k + 1] = grayTargetData[k + 2] = y;
+
+      }
+      ctx.putImageData(grayTarget, pLeftX * 2, pLeftY * 2);
+    }
+
+    // border
+    ctx.beginPath();
+    ctx.arc(pCenterX, pCenterY, ICON_WIDTH / 2 - ICON_BORDER, 0, Math.PI*2);
+    ctx.closePath();
+    ctx.strokeStyle = borderColor;
+    ctx.lineWidth = ICON_BORDER;
+    ctx.stroke();
 
     // put rank
     ctx.beginPath();
@@ -204,13 +217,13 @@ function createCanvas(picks = [], isReset = false) {
   }
 }
 
-function updateCanvas(picksToBe) {
+function updateCanvas(picksToBe, isForce = false) {
   var canvas = document.getElementById('ranking__pyramid-canvas');
   if (canvas.getContext){
     const ctx = canvas.getContext("2d");
     // draw picture
     processPyramidCell((row_icons_size, i,j, rank) => {
-        if(picks[rank] !== picksToBe[rank]){
+        if(picks[rank] !== picksToBe[rank] || isForce){
           const trainee = picksToBe[rank] !== 'undefined' && picksToBe[rank] != null && typeof trainees[picksToBe[rank]] !== 'undefined'
                     ? trainees[picksToBe[rank]] : null;
           putTraineeCell(ctx, canvas.width / CANVAS_SCALE, canvas.height / CANVAS_SCALE, row_icons_size, i, j, trainee, rank)
