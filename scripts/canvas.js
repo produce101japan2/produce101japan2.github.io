@@ -321,3 +321,5 @@ readFromCSV(MEMBER_FILE,
               renderBox(trainees, picks);
               addEventToTools(trainees);
             });
+
+document.getElementById("ranking__pyramid-tools-dl").onclick = download

@@ -83,6 +83,10 @@ function getSortOrder(trainees, field, isReverse) {
     });
 }
 
+function filterMember() {
+
+}
+
 function addEventToTools(trainees){
   document.getElementById("button__sortAZ").onclick =
     () => renderBox(trainees, picks, getSortOrder(trainees, "id", false));

@@ -64,6 +64,7 @@ body {
 /* Styles for table */
 #trainee_picker {
   height: 590px;
+  min-height: 300px;
   width: 300px;
   border-radius: 8px;
   border: 1px solid var(--produce-gray);
@@ -222,6 +223,7 @@ body {
 
 #ranking__pyramid-tools {
 	height: 30px;
+  padding: 0px 10px;
 }
 
 #ranking__pyramid-tools-copy {
@@ -270,19 +272,17 @@ footer p{
     display: none;
 }
 
-@media screen and (max-width: 540px) {
+@media screen and (max-width: 870px) {
   /* Ranking Styles */
   #ranking__pyramid-canvas {
     margin: 0px auto;
     width: 100%;
+    max-width: 540px;
   }
 
   #trainee_picker {
     height: 40vh;
     width: 100%;
-  }
-
-  #ranking__pyramid-tools{
-    padding: 0px 10px;
+    max-width: 540px;
   }
 }
