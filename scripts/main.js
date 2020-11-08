@@ -294,7 +294,7 @@ const alternateRomanizations = {
   'hwang yunseong': ['hwang yunseong', 'hwang yoonseong']
 };
 
-// uses the current filter text to create a subset of trainees with matching info
+// uses the current filter text to create a subset of trainees with matching infofilterTrainees
 function filterTrainees(event) {
   let filterText = event.target.value.toLowerCase();
   // filters trainees based on name, alternate names, and company

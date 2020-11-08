@@ -83,8 +83,18 @@ function getSortOrder(trainees, field, isReverse) {
     });
 }
 
-function filterMember() {
+function searchMember(event) {
+  const filterText = event.target.value.toLowerCase();
+  renderBox(trainees, picks,
+            Object.keys(trainees)
+                  .filter(key => {
+                     return includesIgnCase(trainees[key].name, filterText)
+                             || includesIgnCase(trainees[key].name_sub, filterText);
+                  }))
+}
 
+function includesIgnCase(mainString, subString) {
+  return mainString.toLowerCase().includes(subString.toLowerCase());
 }
 
 function addEventToTools(trainees){
