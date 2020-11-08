@@ -111,12 +111,12 @@ function putTraineeCell(ctx, width, height, row_icons_size, i, j, trainee, rank)
   const borderColor = trainee != null ? (showEliminated && trainee.eliminated) ? ICON_LINE_COLOR["n"] : ICON_LINE_COLOR[trainee.grade]
                                        : ICON_DEFAULT_LINE_COLOR;
 
-  // reset
+  // reset name
   ctx.fillStyle = '#fff';
   ctx.fillRect(pLeftX - PYRAMID_PADDING_X / 2,
-               pLeftY,
+               pLeftY + ICON_WIDTH + ICON_RANK_FONT_SIZE / 2,
                ICON_WIDTH + PYRAMID_PADDING_X,
-               ICON_WIDTH + PYRAMID_PADDING_Y);
+               PYRAMID_PADDING_Y - ICON_RANK_FONT_SIZE / 2);
 
   const chara = new Image();
   chara.src = trainee != null ? ICON_PREFIX + trainee.image : ICON_DEFAULT_IMAGE
