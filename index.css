@@ -28,6 +28,8 @@
 
 button {
   font-family: var( --font-family);
+  border-width: 1px;
+  border-radius: 3px;
 }
 
 p {
@@ -222,25 +224,29 @@ body {
 }
 
 #ranking__pyramid-tools {
-	height: 30px;
+	height: 40px;
   padding: 0px 10px;
 }
 
 #ranking__pyramid-tools-copy {
   margin: 0;
-  margin-left: -65px;
-  height: inherit;
+  margin-left: -10px;
   width: 65px;
-
+  height: 40px;
 }
 
 #ranking__pyramid-tools-dl {
-  height: inherit;
+  height: 40px;
+  padding: 5px;
 }
 
 #ranking__pyramid-tools-text {
-  height: inherit;
-  padding: 0px;
+  height: 28px;
+  padding: 5px;
+  padding-right: 10px;
+  width: 100px;
+  border-width: 1px;
+  border-radius: 3px;
 }
 
 /* Generic Styles */
