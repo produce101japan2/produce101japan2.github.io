@@ -2,6 +2,7 @@ let showEliminated = false;
 let showTop11 = false;
 let sortOrder;
 
+const URL_PREFIX = "https://produce101japan.github.io/?r=";
 const CHECKED_CLASS = "trainee_picker__container__entry-check";
 const CHECKED_IMAGE = `<img class="${CHECKED_CLASS}" src="assets/check.png"/>`;
 
@@ -11,7 +12,7 @@ function clickEntry(trainee, element) {
   for (let i = 0; i < PYRAMID_MAX; i++) {
     if (picks[i] === trainee.id) {
       picksToBe[i] = null;
-      updateCanvas(picksToBe);
+      changePicks(picksToBe);
       element.getElementsByClassName(CHECKED_CLASS)[0].remove();
       return;
     }
@@ -20,7 +21,7 @@ function clickEntry(trainee, element) {
   for (let i = 0; i < PYRAMID_MAX; i++) {
     if (typeof picks[i] === 'undefined' || picks[i] === null) {
       picksToBe[i] = trainee.id;
-      updateCanvas(picksToBe);
+      changePicks(picksToBe);
       element.insertAdjacentHTML("beforeend", CHECKED_IMAGE);
       return;
     }
@@ -98,6 +99,10 @@ function includesIgnCase(mainString, subString) {
   return mainString.toLowerCase().includes(subString.toLowerCase());
 }
 
+function changeUrlBox(code){
+  document.getElementById("ranking__pyramid-tools-text").value = URL_PREFIX + code;
+}
+
 function addEventToTools(trainees){
   document.getElementById("button__sortAZ").onclick =
     () => {
@@ -114,5 +119,10 @@ function addEventToTools(trainees){
       showEliminated = !showEliminated;
       renderBox(trainees, picks);
       updateCanvas(picks, true);
+    }
+  document.getElementById("ranking__pyramid-tools-copy").onclick =
+    () => {
+      document.getElementById("ranking__pyramid-tools-text").select();
+      document.execCommand("copy");
     }
 }

@@ -27,12 +27,15 @@ const HEADER_COLOR_END = "#0086ff";
 const HEADER_LOGO_IMG = "assets/logo.svg";
 const PYRAMID_ROWS = [1, 2, 3, 5];
 const PYRAMID_MAX = 11; // sum of PYRAMID_ROWS
+const CODE_LENGTH = 6;
+const CODE_PARAM = "r";
 
 const FONT_DEFAULT = "'M PLUS Rounded 1c', 'Open Sans', sans-serif";
 
 let isJapanese = false;
 let trainees = [];
 let draggingStart = {};
+var picks = [];
 
 function readFromCSV(path, callback) {
   var rawFile = new XMLHttpRequest();
@@ -66,8 +69,12 @@ function convertCSVArrayToTraineeData(csvArrays) {
   return trainees;
 }
 
-function zeroPadding(num,length){
-  return ('0' + num).slice(-length);
+function zeroPadding(num, length){
+  var tempNum = num;
+  for(let i = 0;i < length+1; i++){
+    tempNum = '0' + tempNum;
+  }
+  return tempNum.slice(-length);
 }
 
 function drawString(ctx, text, posX, posY, fontSize = 16, textColor = '#000000', align = "start") {
@@ -247,7 +254,7 @@ function deletePick(rank){
   const target = picksToBe[rank];
   deleteEntryPick(target);
   picksToBe[rank] = null;
-  updateCanvas(picksToBe);
+  changePicks(picksToBe);
 }
 
 function switchPick(start, end){
@@ -255,7 +262,38 @@ function switchPick(start, end){
   const tmpPick = picksToBe[start];
   picksToBe[start] = picksToBe[end];
   picksToBe[end] = tmpPick;
+  changePicks(picksToBe);
+}
+
+function changePicks(picksToBe){
+  const code = encodePicks(picksToBe);
+  changeUrlBox(code);
   updateCanvas(picksToBe);
+}
+
+function encodePicks(picksArr){
+  let code = "";
+  for (let j = 0; j < PYRAMID_MAX; j++) {
+    const rank = (typeof picksArr[j] === 'undefined' || picksArr[j] == null ) ? 0 : picksArr[j] + 1;
+    code = code + zeroPadding(rank.toString(32), 2);
+  }
+  console.log(code);
+  return code;
+}
+
+function decodePicks(code){
+  let picksArr = [];
+  for (let j = 0; j < PYRAMID_MAX; j ++) {
+  console.log(code.substr( j * 2, 2));
+    const v = parseInt(code.substr( j * 2, 2), 32);
+    if (v === 0) {
+      picksArr[j] = null;
+    }else{
+      picksArr[j] = v - 1;
+    }
+  }
+  console.log(picksArr);
+  return picksArr;
 }
 
 function getRankFrom(width, point){
@@ -319,10 +357,18 @@ function setLang() {
   }
 }
 
-var picks = [];
+function initRanking(){
+  var urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has(CODE_PARAM)) {
+    const code = urlParams.get(CODE_PARAM)
+    picks = decodePicks(code);
+  }
+  changeUrlBox(encodePicks(picks));
+}
 
 setLang();
 
+initRanking();
 readFromCSV(MEMBER_FILE,
             (t) => {
               trainees = t;
