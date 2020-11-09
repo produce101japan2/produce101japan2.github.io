@@ -277,14 +277,12 @@ function encodePicks(picksArr){
     const rank = (typeof picksArr[j] === 'undefined' || picksArr[j] == null ) ? 0 : picksArr[j] + 1;
     code = code + zeroPadding(rank.toString(32), 2);
   }
-  console.log(code);
   return code;
 }
 
 function decodePicks(code){
   let picksArr = [];
   for (let j = 0; j < PYRAMID_MAX; j ++) {
-  console.log(code.substr( j * 2, 2));
     const v = parseInt(code.substr( j * 2, 2), 32);
     if (v === 0) {
       picksArr[j] = null;
@@ -292,7 +290,6 @@ function decodePicks(code){
       picksArr[j] = v - 1;
     }
   }
-  console.log(picksArr);
   return picksArr;
 }
 
