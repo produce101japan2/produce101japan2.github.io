@@ -1,15 +1,12 @@
 /* define constants up here */
 :root {
-  --banner-bg-start: #1087FF;
-  --banner-bg-end: #0144FC;
   --produce-gray: #e4e4e4;
   --search-text-gray: #949494;
   --search-gray: #f2f2f2;
   --affil-gray: #909090;
-  --name-gray: #2b2b2b;
-  --other-name-gray: #444444;
-  --ranking-affil-gray: #989898;
-  --save-box-gray: #b1b1b1;
+  --name-gray: #333;
+  --button-border-color: #909090;
+  --button-dl-bg: #40AFFF;
 
   --checked-blue: #052ae2CC;
 
@@ -30,6 +27,9 @@ button {
   font-family: var( --font-family);
   border-width: 1px;
   border-radius: 3px;
+  color: #fff;
+  background-color: var(--button-border-color);
+  border: solid 1px var(--button-border-color);
 }
 
 p {
@@ -41,8 +41,6 @@ body {
   font-family: var( --font-family);
   display: inline-block;
   min-width: 100%;
-  /*TODO: I had the weirdest bug where if i don't have this background white the top banner would disappear
-  it's super late right now and I'm not sure what is going on i need to look into this later */
   background-color: white;
 }
 
@@ -68,7 +66,7 @@ body {
   height: 590px;
   min-height: 300px;
   width: 300px;
-  border-radius: 8px;
+  border-radius: 3px;
   border: 1px solid var(--produce-gray);
   margin: 10px;
   display: flex;
@@ -225,28 +223,44 @@ body {
 
 #ranking__pyramid-tools {
 	height: 40px;
-  padding: 0px 10px;
+  display: flex;
 }
 
-#ranking__pyramid-tools-copy {
-  margin: 0;
-  margin-left: -10px;
-  width: 65px;
-  height: 40px;
+#ranking__pyramid-tools-textcopy{
+  box-sizing: border-box;
+  position: relative;
+  border: 1px solid var(--button-border-color);
+  display: block;
+  padding: 6px 10px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+#ranking__pyramid-tools-text{
+  border: none;
+}
+
+#ranking__pyramid-tools-text:focus {
+  outline: 0;
+}
+
+#ranking__pyramid-tools-copy{
+  cursor: pointer;
+  border: none;
+  background: var(--button-border-color);
+  color: #fff;
+  position: absolute;
+  width: 5em;
+	height: 40px;
+  right:0px;
+  top: -1px;
+  outline : none;
 }
 
 #ranking__pyramid-tools-dl {
-  height: 40px;
-  padding: 5px;
-}
-
-#ranking__pyramid-tools-text {
-  height: 28px;
-  padding: 5px;
-  padding-right: 10px;
-  width: 100px;
-  border-width: 1px;
-  border-radius: 3px;
+	height: 40px;
+  background-color: var(--button-dl-bg);
+  border: solid 1px var(--button-dl-bg);
 }
 
 /* Generic Styles */
