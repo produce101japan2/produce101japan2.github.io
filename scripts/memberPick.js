@@ -19,7 +19,7 @@ function clickEntry(trainee, element) {
   }
   // add
   for (let i = 0; i < PYRAMID_MAX; i++) {
-    if (typeof picks[i] === 'undefined' || picks[i] === null) {
+    if (typeof picks[i] === 'undefined' || picks[i] === null || typeof trainees[picks[i]] === 'undefined') {
       picksToBe[i] = trainee.id;
       changePicks(picksToBe);
       element.insertAdjacentHTML("beforeend", CHECKED_IMAGE);

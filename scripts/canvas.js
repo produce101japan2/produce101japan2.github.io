@@ -361,6 +361,7 @@ function initRanking(){
     picks = decodePicks(code);
   }
   changeUrlBox(encodePicks(picks));
+   console.log(picks);
 }
 
 setLang();
