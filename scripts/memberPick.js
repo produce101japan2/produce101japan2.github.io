@@ -2,7 +2,7 @@ let showEliminated = false;
 let showTop11 = false;
 let sortOrder;
 
-const URL_PREFIX = "https://produce101japan.github.io/?r=";
+const URL_PREFIX = "https://produce101japan2.github.io/?r=";
 const CHECKED_CLASS = "trainee_picker__container__entry-check";
 const CHECKED_IMAGE = `<img class="${CHECKED_CLASS}" src="assets/check.png"/>`;
 
