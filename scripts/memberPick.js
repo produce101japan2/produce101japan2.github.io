@@ -1,4 +1,4 @@
-let showEliminated = false;
+let showEliminated = true;
 let showTop11 = false;
 let sortOrder;
 
@@ -108,21 +108,37 @@ function addEventToTools(trainees){
     () => {
       sortOrder = getSortOrder(trainees, "id", false);
       renderBox(trainees, picks);
+      document.getElementById("button__sort19").classList.remove('active');
+      document.getElementById("button__sortAZ").classList.add('active');
     }
   document.getElementById("button__sort19").onclick =
     () => {
       sortOrder = getSortOrder(trainees, "rank", false);
       renderBox(trainees, picks);
+      document.getElementById("button__sort19").classList.add('active');
+      document.getElementById("button__sortAZ").classList.remove('active');
     }
   document.getElementById("button__filter").onclick =
     () => {
       showEliminated = !showEliminated;
       renderBox(trainees, picks);
       updateCanvas(picks, true);
+      if(showEliminated){
+        document.getElementById("button__filter").classList.add('active');
+      } else{
+        document.getElementById("button__filter").classList.remove('active');
+      }
     }
   document.getElementById("ranking__pyramid-tools-copy").onclick =
     () => {
       document.getElementById("ranking__pyramid-tools-text").select();
       document.execCommand("copy");
     }
+
+  // init
+  document.getElementById("button__sortAZ").classList.add('active');
+  if(showEliminated){
+    document.getElementById("button__filter").classList.add('active');
+  }
+
 }

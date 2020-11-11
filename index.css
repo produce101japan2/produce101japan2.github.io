@@ -1,12 +1,17 @@
 /* define constants up here */
 :root {
   --produce-gray: #e4e4e4;
-  --search-text-gray: #949494;
-  --search-gray: #f2f2f2;
-  --affil-gray: #909090;
   --name-gray: #333;
-  --button-border-color: #909090;
   --button-dl-bg: #40AFFF;
+
+  --first-color-main: #40AFFF;
+  --first-color-sub: #81e1ff;
+  --first-color-sub2: #0080cb;
+  --second-color-main: #f2ffb3;
+  --second-color-sub: #ffffe6;
+  --second-color-sub2: #bfcc83;
+  --color-gray: #909090;
+  --color-gray-second: #f2f2f2;
 
   --checked-blue: #052ae2CC;
 
@@ -23,25 +28,26 @@
   --font-family: 'M PLUS Rounded 1c', 'Open Sans', sans-serif;
 }
 
-button {
-  font-family: var( --font-family);
-  border-width: 1px;
-  border-radius: 3px;
-  color: #fff;
-  background-color: var(--button-border-color);
-  border: solid 1px var(--button-border-color);
-}
-
-p {
-  margin: 0;
-}
-
 body {
   margin: 0;
   font-family: var( --font-family);
   display: inline-block;
   min-width: 100%;
   background-color: white;
+}
+
+button {
+  font-family: var( --font-family);
+  border-width: 1px;
+  border-radius: 3px;
+  color: #fff;
+  background-color: var(--first-color-main);
+  border: solid 1px var(--first-color-main);
+  outline: 0;
+}
+
+p {
+  margin: 0;
 }
 
 // reset iOS button design
@@ -79,10 +85,10 @@ body {
 }
 #trainee_picker__filter-input {
   padding: 5px;
-  height: 100%;
+  height: 2em;
   box-sizing: border-box;
   border-radius: 3px;
-  background-color: var(--search-gray);
+  background-color: var(--color-gray-second);
   border: none;
   outline: 0;
   width: 100%;
@@ -91,10 +97,23 @@ body {
 
 #trainee_picker__filter-container>button{
   margin: 0 1px;
+  padding: 0.5em;
+  height: 2em;
+  border: 0;
+  background-color: var(--color-gray);
+}
+
+#trainee_picker__filter-container>button:active{
+  background-color: var(--second-color-sub2);
+}
+
+#trainee_picker__filter-container>button.active{
+  color: var(--color-gray);
+  background-color: var(--second-color-main);
 }
 
 ::placeholder {
-  color: var(--search-text-gray);
+  color: var(--color-gray);
 }
 
 /* Styles for table entries */
@@ -212,11 +231,6 @@ body {
 .trainee_picker__container__entry .name.sub {
   font-size: 11px;
 }
-.trainee_picker__container__entry .companyandyear {
-  font-size: 10px;
-  color: var(--affil-gray);
-  display: block;
-}
 
 /* Ranking Styles */
 #ranking__pyramid {
@@ -238,7 +252,7 @@ body {
 #ranking__pyramid-tools-textcopy{
   box-sizing: border-box;
   position: relative;
-  border: 1px solid var(--button-border-color);
+  border: 1px solid var(--color-gray);
   display: block;
   padding: 6px 10px;
   border-radius: 3px;
@@ -259,7 +273,7 @@ body {
 #ranking__pyramid-tools-copy{
   cursor: pointer;
   border: none;
-  background: var(--button-border-color);
+  background: var(--color-gray);
   color: #fff;
   position: absolute;
   width: 5em;
@@ -269,11 +283,19 @@ body {
   outline : none;
 }
 
+#ranking__pyramid-tools-copy:active {
+  background: var(--first-color-sub2);
+}
+
 #ranking__pyramid-tools-dl {
 	height: 40px;
   background-color: var(--button-dl-bg);
   border: solid 1px var(--button-dl-bg);
   width: 10em;
+}
+
+#ranking__pyramid-tools-dl:active {
+  background-color: var(--first-color-sub2);
 }
 
 /* Generic Styles */
