@@ -121,16 +121,16 @@ function putTraineeCell(ctx, width, height, row_icons_size, i, j, trainee, rank)
   // reset name
   ctx.fillStyle = '#fff';
   ctx.fillRect(pLeftX - PYRAMID_PADDING_X / 2,
-               pLeftY + ICON_WIDTH + ICON_RANK_FONT_SIZE / 2,
+               pLeftY + ICON_WIDTH,
                ICON_WIDTH + PYRAMID_PADDING_X,
-               PYRAMID_PADDING_Y - ICON_RANK_FONT_SIZE / 2);
+               PYRAMID_PADDING_Y - ICON_BORDER);
 
   const chara = new Image();
   chara.src = trainee != null ? ICON_PREFIX + trainee.image : ICON_DEFAULT_IMAGE
 
   chara.onload = () => {
     ctx.save();
-    ctx.arc(pCenterX, pCenterY, ICON_WIDTH / 2 - ICON_BORDER, 0, Math.PI*2);
+    ctx.arc(pCenterX, pCenterY, ICON_WIDTH / 2, 0, Math.PI*2);
     ctx.closePath();
     ctx.clip();
     ctx.drawImage(chara, pLeftX, pLeftY, ICON_WIDTH, ICON_WIDTH);
@@ -151,12 +151,14 @@ function putTraineeCell(ctx, width, height, row_icons_size, i, j, trainee, rank)
     }
 
     // border
-    ctx.beginPath();
-    ctx.arc(pCenterX, pCenterY, ICON_WIDTH / 2 - ICON_BORDER, 0, Math.PI*2);
-    ctx.closePath();
-    ctx.strokeStyle = borderColor;
-    ctx.lineWidth = ICON_BORDER;
-    ctx.stroke();
+    if(trainee != null) {
+      ctx.beginPath();
+      ctx.arc(pCenterX, pCenterY, ICON_WIDTH / 2 - ICON_BORDER /2, 0, Math.PI*2);
+      ctx.closePath();
+      ctx.strokeStyle = (showEliminated && trainee.eliminated) ? ICON_LINE_COLOR["n"] : ICON_LINE_COLOR[trainee.grade];
+      ctx.lineWidth = ICON_BORDER;
+      ctx.stroke();
+    }
 
     // put rank
     ctx.beginPath();

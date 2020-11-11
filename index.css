@@ -75,6 +75,7 @@ body {
 #trainee_picker__filter-container {
   padding: 8px;
   border-bottom: 1px solid var(--produce-gray);
+  display: flex;
 }
 #trainee_picker__filter-input {
   padding: 5px;
@@ -84,7 +85,14 @@ body {
   background-color: var(--search-gray);
   border: none;
   outline: 0;
+  width: 100%;
+  margin: 0 1px;
 }
+
+#trainee_picker__filter-container>button{
+  margin: 0 1px;
+}
+
 ::placeholder {
   color: var(--search-text-gray);
 }
@@ -224,6 +232,7 @@ body {
 #ranking__pyramid-tools {
 	height: 40px;
   display: flex;
+  padding: 0 10px;
 }
 
 #ranking__pyramid-tools-textcopy{
@@ -234,10 +243,13 @@ body {
   padding: 6px 10px;
   border-radius: 3px;
   overflow: hidden;
+  margin-right: 10px;
+  width: 100%;
 }
 
 #ranking__pyramid-tools-text{
   border: none;
+  width: 100%;
 }
 
 #ranking__pyramid-tools-text:focus {
@@ -261,6 +273,7 @@ body {
 	height: 40px;
   background-color: var(--button-dl-bg);
   border: solid 1px var(--button-dl-bg);
+  width: 10em;
 }
 
 /* Generic Styles */
