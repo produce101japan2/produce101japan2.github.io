@@ -81,7 +81,6 @@ p {
   padding: 0.5em;
   border-bottom: 1px solid var(--produce-gray);
   display: flex;
-  height: 2em;
 }
 #trainee_picker__filter-input {
   padding: 5px;
@@ -295,7 +294,7 @@ p {
 	height: 40px;
   background-color: var(--button-dl-bg);
   border: solid 1px var(--button-dl-bg);
-  width: 10.5em;
+  width: 11em;
   margin-right: 10px;
   font-size: 13px;
 }
