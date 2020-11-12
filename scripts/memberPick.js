@@ -5,6 +5,8 @@ let sortOrder;
 const URL_PREFIX = "https://produce101japan2.github.io/?r=";
 const CHECKED_CLASS = "trainee_picker__container__entry-check";
 const CHECKED_IMAGE = `<img class="${CHECKED_CLASS}" src="assets/check.png"/>`;
+const C_COOKIE_NAME = 'c';
+const C_COOKIE_EXPIRES_SECOND = 3600 * 24 * 90; // 3month
 
 function clickEntry(trainee, element) {
   const picksToBe = picks.slice(0, picks.length);
@@ -101,6 +103,20 @@ function includesIgnCase(mainString, subString) {
 
 function changeUrlBox(code){
   document.getElementById("ranking__pyramid-tools-text").value = URL_PREFIX + code;
+}
+
+function getPickFromCookie() {
+	var value = "; " + document.cookie;
+	var parts = value.split("; " + C_COOKIE_NAME + "=");
+	if (parts.length == 2) {
+	  return parts.pop().split(";").shift();
+	}
+}
+
+function setPickToCookie(code){
+  const d = new Date(new Date().getTime() + 1000 * C_COOKIE_EXPIRES_SECOND);
+  const cookieValue = C_COOKIE_NAME + '=' + code + '; expires=' + d.toGMTString() + ';';
+  document.cookie = cookieValue;
 }
 
 function addEventToTools(trainees){

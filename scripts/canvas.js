@@ -270,6 +270,7 @@ function switchPick(start, end){
 function changePicks(picksToBe){
   const code = encodePicks(picksToBe);
   changeUrlBox(code);
+  setPickToCookie(code)
   updateCanvas(picksToBe);
 }
 
@@ -358,10 +359,14 @@ function setLang() {
 
 function initRanking(){
   var urlParams = new URLSearchParams(window.location.search);
+  const cookie = getPickFromCookie();
   if (urlParams.has(CODE_PARAM)) {
     const code = urlParams.get(CODE_PARAM)
     picks = decodePicks(code);
+  } else if (typeof cookie !== 'undefined') {
+    picks = decodePicks(cookie)
   }
+  console.log("load picks: " + picks);
   changeUrlBox(encodePicks(picks));
 }
 
