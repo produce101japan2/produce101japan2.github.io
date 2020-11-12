@@ -70,7 +70,6 @@ p {
 /* Styles for table */
 #trainee_picker {
   height: 590px;
-  min-height: 300px;
   width: 300px;
   border-radius: 3px;
   border: 1px solid var(--produce-gray);
@@ -343,8 +342,12 @@ footer p{
   }
 
   #trainee_picker {
-    height: 40vh;
+    height: inherit;
     width: 100%;
     max-width: 540px;
+  }
+
+  #trainee_picker__container {
+    height: 35vh;
   }
 }
