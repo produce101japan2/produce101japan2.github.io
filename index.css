@@ -258,7 +258,6 @@ p {
   padding: 6px 10px;
   border-radius: 3px;
   overflow: hidden;
-  margin-right: 10px;
   width: 100%;
 }
 
@@ -281,11 +280,12 @@ p {
   background: var(--color-gray);
   color: #fff;
   position: absolute;
-  width: 5em;
+  width: 5.5em;
 	height: 40px;
   right:0px;
   top: -1px;
   outline : none;
+  font-size: 13px;
 }
 
 #ranking__pyramid-tools-copy:active {
@@ -297,6 +297,8 @@ p {
   background-color: var(--button-dl-bg);
   border: solid 1px var(--button-dl-bg);
   width: 10em;
+  margin-right: 10px;
+  font-size: 13px;
 }
 
 #ranking__pyramid-tools-dl:active {
