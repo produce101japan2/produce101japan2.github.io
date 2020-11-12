@@ -82,6 +82,7 @@ p {
   padding: 8px;
   border-bottom: 1px solid var(--produce-gray);
   display: flex;
+  height: 2em;
 }
 #trainee_picker__filter-input {
   padding: 5px;
@@ -259,6 +260,10 @@ p {
   overflow: hidden;
   margin-right: 10px;
   width: 100%;
+}
+
+#ranking__pyramid-toos-text-container{
+  padding-right: 4em;
 }
 
 #ranking__pyramid-tools-text{
