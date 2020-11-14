@@ -14,7 +14,7 @@ const ICON_LINE_COLOR = {
      f: "#a6a6a4",
      n: "#707070"
 }
-const ICON_RANK_FONT_SIZE = 8;
+const ICON_RANK_FONT_SIZE = 10;
 const ICON_RANK_FONT_COLOR = "#fff";
 const ICON_RANK_BG_COLOR = "#0086ff";
 const ICON_RANK_NAME_SIZE = 11;
@@ -160,20 +160,20 @@ function putTraineeCell(ctx, width, height, row_icons_size, i, j, trainee, rank)
 
     // put rank
     ctx.beginPath();
-    ctx.arc(pCenterX, pCenterY + ICON_WIDTH / 2 - ICON_RANK_FONT_SIZE / 2, ICON_RANK_FONT_SIZE / 2 + 1, 0, Math.PI*2);
+    ctx.arc(pCenterX, pCenterY + ICON_WIDTH / 2, ICON_RANK_FONT_SIZE / 2 + 1, 0, Math.PI*2);
     ctx.fillStyle = ICON_RANK_BG_COLOR;
     ctx.fill() ;
     ctx.strokeStyle = ICON_RANK_BG_COLOR;
     ctx.lineWidth = 0;
     ctx.stroke();
-    drawString(ctx, rank + 1, pCenterX, pCenterY + ICON_WIDTH / 2, ICON_RANK_FONT_SIZE, ICON_RANK_FONT_COLOR, "center")
+    drawString(ctx, rank + 1, pCenterX, pCenterY + ICON_WIDTH / 2 + ICON_RANK_FONT_SIZE / 2 - 1, ICON_RANK_FONT_SIZE, ICON_RANK_FONT_COLOR, "center")
   };
 
   // put name
   drawString(ctx,
             trainee != null ? trainee.name : "",
             pCenterX,
-            (i + 1) * (ICON_WIDTH + PYRAMID_PADDING_Y) + ICON_WIDTH,
+            pCenterY + ICON_WIDTH/2 + ICON_RANK_FONT_SIZE * 2,
             ICON_RANK_NAME_SIZE,
             "#000",
             "center",
