@@ -75,12 +75,12 @@ function zeroPadding(num, length){
   return tempNum.slice(-length);
 }
 
-function drawString(ctx, text, posX, posY, fontSize = 16, textColor = '#000000', align = "start") {
+function drawString(ctx, text, posX, posY, fontSize = 16, textColor = '#000000', align = "start", maxWidth) {
 	ctx.save();
 	ctx.font = fontSize + "px " + FONT_DEFAULT;
 	ctx.fillStyle = textColor;
   ctx.textAlign = align;
-  ctx.fillText(text, posX, posY);
+  ctx.fillText(text, posX, posY, maxWidth);
 	ctx.restore();
 }
 
@@ -176,7 +176,8 @@ function putTraineeCell(ctx, width, height, row_icons_size, i, j, trainee, rank)
             (i + 1) * (ICON_WIDTH + PYRAMID_PADDING_Y) + ICON_WIDTH,
             ICON_RANK_NAME_SIZE,
             "#000",
-            "center")
+            "center",
+            ICON_WIDTH + PYRAMID_PADDING_X - 10)
 
 }
 
