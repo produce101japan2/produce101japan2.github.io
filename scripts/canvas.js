@@ -22,9 +22,7 @@ const PYRAMID_PADDING_X = 50;
 const PYRAMID_PADDING_Y = 40;
 const HEADER_HEIGHT = 60;
 const HEADER_MARGIN = HEADER_HEIGHT + PYRAMID_PADDING_Y / 2;
-const HEADER_COLOR_START = "#40AFFF";
-const HEADER_COLOR_END = "#0086ff";
-const HEADER_LOGO_IMG = "assets/logo.svg";
+const HEADER_IMG = "assets/header.png"
 const PYRAMID_ROWS = [1, 2, 3, 5];
 const PYRAMID_MAX = 11; // sum of PYRAMID_ROWS
 const CODE_LENGTH = 6;
@@ -188,15 +186,11 @@ function drawPicture(ctx, width, height, picks){
   ctx.fillRect(0, 0, width, height);
 
   // header
-  const grad = ctx.createLinearGradient(0,0, width, 0);
-  grad.addColorStop(0, HEADER_COLOR_START);
-  grad.addColorStop(0.5, HEADER_COLOR_END);
-  grad.addColorStop(1, HEADER_COLOR_START);
-  ctx.rect( 0, 0, width, HEADER_HEIGHT )
-  ctx.fillStyle = grad;
-  ctx.fill() ;
-  drawString(ctx, "PRODUCE 101 JAPAN season2", width / 2, 20 + 5 , 20, "#fff", "center")
-  drawString(ctx, "推しMENメーカー", width / 2, 40 + 10, 18, "#f3cdd3", "center")
+  const headerImg = new Image();
+  headerImg.src = HEADER_IMG;
+  headerImg.onload = () => {
+    ctx.drawImage(headerImg, 0, 0, width, HEADER_HEIGHT);
+  }
 
   // date
   drawString(ctx, 'at '+getDateString(),  width - 5,  height - 20, 12, "#000","end")
