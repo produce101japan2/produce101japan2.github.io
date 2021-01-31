@@ -1,5 +1,6 @@
-const MEMBER_FILE = "trainee_info.csv?202101302132";
+const MEMBER_FILE = "trainee_info.csv?202102010458";
 const CURRENT_BORDER = 100;
+const CURRENT_RANK_COLUMN = 10;
 const CANVAS_SCALE = 2;
 const ICON_WIDTH = 65;
 const ICON_PREFIX = "assets/trainees/"
@@ -57,11 +58,11 @@ function convertCSVArrayToTraineeData(csvArrays) {
     const trainee = {};
     trainee.id = parseInt(traineeArray[0].split('_')[0]) - 1;
     trainee.image = traineeArray[0] + ".jpg";
-    trainee.name = isJapanese?traineeArray[2]:traineeArray[1];
-    trainee.name_sub = isJapanese?traineeArray[1]:traineeArray[2];
-    trainee.rank = traineeArray[4] || 1;
+    trainee.name = isJapanese?traineeArray[1]:traineeArray[2];
+    trainee.name_sub = isJapanese?traineeArray[2]:traineeArray[1];
+    trainee.rank = traineeArray[CURRENT_RANK_COLUMN] || 1;
     trainee.eliminated = trainee.rank > CURRENT_BORDER; // t if eliminated
-    trainee.grade = traineeArray[3];
+    trainee.grade = traineeArray[9];
     trainees[trainee.id] = trainee;
   });
   return trainees;

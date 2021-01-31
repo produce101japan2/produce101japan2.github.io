@@ -24,9 +24,9 @@ function convertCSVArrayToTraineeData(csvArrays) {
     trainee = {};
     trainee.id = index;
     trainee.image = traineeArray[0] + ".jpg";
-    trainee.name_romanized = traineeArray[1];
-    trainee.name_japanese = traineeArray[2];
-    trainee.rank = traineeArray[4] || 1;
+    trainee.name_romanized = traineeArray[2];
+    trainee.name_japanese = traineeArray[1];
+    trainee.rank = traineeArray[10] || 1;
     trainee.eliminated = trainee.rank > currentBorder; // t if eliminated
     trainee.grade = "f";
     return trainee;
@@ -284,7 +284,7 @@ var filteredTrainees = [];
 // holds true if using japanese
 var isJapanese = false;
 setLang();
-readFromCSV("./trainee_info.csv?202101310007");
+readFromCSV("./trainee_info.csv?202102010458");
 //getRanking();
 setDate();
 setGrades();
