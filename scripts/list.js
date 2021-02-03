@@ -1,5 +1,7 @@
 const L_COOKIE_NAME = 'list';
 const L_COOKIE_EXPIRES_SECOND = 3600 * 24 * 90; // 3month
+const CURRENT_RANK_COLUMN = 11;
+const CURRENT_BORDER = 100;
 
 // Takes in name of csv and populates necessary data in table
 function readFromCSV(path) {
@@ -26,8 +28,8 @@ function convertCSVArrayToTraineeData(csvArrays) {
     trainee.image = traineeArray[0] + ".jpg";
     trainee.name_romanized = traineeArray[2];
     trainee.name_japanese = traineeArray[1];
-    trainee.rank = traineeArray[10] || 1;
-    trainee.eliminated = trainee.rank > currentBorder; // t if eliminated
+    trainee.rank = traineeArray[CURRENT_RANK_COLUMN] || 1;
+    trainee.eliminated = trainee.rank > CURRENT_BORDER; // t if eliminated
     trainee.grade = "f";
     return trainee;
   });
@@ -276,7 +278,6 @@ function setPickToCookie(code){
   document.cookie = L_COOKIE_NAME + '=' + code + '; expires=' + d.toGMTString() + ';';
 }
 
-var currentBorder = 100;
 // holds the list of all trainees
 var trainees = [];
 // holds the list of trainees to be shown on the table
@@ -284,7 +285,7 @@ var filteredTrainees = [];
 // holds true if using japanese
 var isJapanese = false;
 setLang();
-readFromCSV("./trainee_info.csv?202102010458");
+readFromCSV("./trainee_info.csv?202102032358");
 //getRanking();
 setDate();
 setGrades();
