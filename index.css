@@ -231,6 +231,10 @@ p {
   font-size: 11px;
 }
 
+.trainee_picker__container__entry .info {
+  color: var(--color-gray);
+}
+
 /* Ranking Styles */
 #ranking__pyramid {
   display: flex;

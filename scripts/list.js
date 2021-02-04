@@ -285,7 +285,7 @@ var filteredTrainees = [];
 // holds true if using japanese
 var isJapanese = false;
 setLang();
-readFromCSV("./trainee_info.csv?202102032358");
+readFromCSV("./trainee_info.csv?202102042312");
 //getRanking();
 setDate();
 setGrades();

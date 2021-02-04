@@ -1,4 +1,4 @@
-const MEMBER_FILE = "trainee_info.csv?202102032358";
+const MEMBER_FILE = "trainee_info.csv?202102042312";
 const CURRENT_BORDER = 100;
 const CURRENT_RANK_COLUMN = 11;
 const CANVAS_SCALE = 2;
@@ -23,7 +23,7 @@ const PYRAMID_PADDING_X = 40;
 const PYRAMID_PADDING_Y = 40;
 const HEADER_HEIGHT = 60;
 const HEADER_MARGIN = HEADER_HEIGHT + PYRAMID_PADDING_Y / 2;
-const HEADER_IMG = "assets/header.png?202102032358"
+const HEADER_IMG = "assets/header.png?202102042312"
 const PYRAMID_ROWS = [1, 2, 3, 5];
 const PYRAMID_MAX = 11; // sum of PYRAMID_ROWS
 const CODE_LENGTH = 6;
@@ -63,6 +63,13 @@ function convertCSVArrayToTraineeData(csvArrays) {
     trainee.rank = traineeArray[CURRENT_RANK_COLUMN] || 1;
     trainee.eliminated = trainee.rank > CURRENT_BORDER; // t if eliminated
     trainee.grade = traineeArray[10];
+    trainee.birth = traineeArray[3];
+    trainee.blood = traineeArray[4];
+    trainee.height = traineeArray[5];
+    trainee.weight = traineeArray[6];
+    trainee.birthplace = traineeArray[7];
+    trainee.hobby = traineeArray[8];
+    trainee.skills = traineeArray[9];
     trainees[trainee.id] = trainee;
   });
   return trainees;
