@@ -69,7 +69,7 @@ function getTableEntryHTML(trainee, selected) {
       }
     </div>
     <div class="trainee_picker__container__entry-text">
-      <!-- <span class="rank">${trainee.rank}</span> -->
+      <span class="rank">${trainee.rank}</span>
       <span class="name"><strong>${trainee.name}</strong></span>
       <span class="name sub">(${trainee.name_sub})</span>
       <div class="info">
@@ -83,7 +83,9 @@ function getTableEntryHTML(trainee, selected) {
 function getSortOrder(trainees, field, isReverse) {
   return Object.keys(trainees).sort((a, b) => {
       if (trainees[a][field] > trainees[b][field]) {
-        return isReverse? -1 : 1;
+        return isReverse ? -1 : 1;
+      } else if (trainees[a][field] === trainees[b][field]){
+        return 0;
       } else {
         return isReverse? 1 : -1;
       }

@@ -1,7 +1,8 @@
 const L_COOKIE_NAME = 'list';
 const L_COOKIE_EXPIRES_SECOND = 3600 * 24 * 90; // 3month
-const CURRENT_RANK_COLUMN = 11;
-const CURRENT_BORDER = 100;
+const CURRENT_RANK_COLUMN = 12;
+const CURRENT_BORDER = 60;
+const CVS_FILE = "./trainee_info.csv?202104012331";
 
 // Takes in name of csv and populates necessary data in table
 function readFromCSV(path) {
@@ -285,7 +286,7 @@ var filteredTrainees = [];
 // holds true if using japanese
 var isJapanese = false;
 setLang();
-readFromCSV("./trainee_info.csv?202102042312");
+readFromCSV(CVS_FILE);
 //getRanking();
 setDate();
 setGrades();
