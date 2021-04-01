@@ -1,1 +1,1 @@
-paste ../trainee_info.csv <(sh get_rank.sh | awk -F "," '{print $2}') | awk -F "\t" '{print $1 "," $2}' | awk -F "," '{print $1 "," $2 "," $3 ",f," $6}'
+paste ../trainee_info.csv <(sh get_rank.sh | awk -F "," '{if($2>60){print $2}else{print "1"}}') | awk -F "\t" '{if($2==""){print $1",101"}else{print $1","$2}}'
