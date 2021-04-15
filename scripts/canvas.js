@@ -1,4 +1,4 @@
-const MEMBER_FILE = "trainee_info.csv?202104091232";
+const MEMBER_FILE = "trainee_info.csv?202104152357";
 const CURRENT_BORDER = 60;
 const CURRENT_RANK_COLUMN = 11;
 const CANVAS_SCALE = 2;
