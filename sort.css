@@ -1,0 +1,77 @@
+/* define constants up here */
+:root {
+  --produce-gray: #E4E4E4;
+  --name-gray: #333;
+  --button-dl-bg: #40AFFF;
+
+  --first-color-main: #40AFFF;
+  --first-color-sub: #81E1FF;
+  --first-color-sub2: #0080CB;
+  --second-color-main: #F2FFB3;
+  --second-color-sub: #FFFFE6;
+  --second-color-sub2: #BFCC83;
+  --color-gray: #909090;
+  --color-gray-second: #F2F2F2;
+
+  --checked-blue: #0080CBCC;
+
+  /* ranking border colors */
+  --a-rank: #F7ABC5;
+  --b-rank: #F47F22;
+  --c-rank: #F6D12F;
+  --d-rank: #42B96D;
+  --f-rank: #A6A6A4;
+  --x-rank: #000000;
+  --no-rank: #707070;
+
+  /* font */
+  --font-family: 'Noto Sans JP', 'Open Sans', sans-serif;
+}
+
+/* Styles for banner */
+#top-banner {
+  background: radial-gradient(circle, #FFFFFF, var(--first-color-sub) 80%);
+  padding: 3px;
+
+  /* these will be unnecessary once we get the banner image */
+  color: white;
+  text-align: center;
+}
+
+#banner-image {
+  width: 40px;
+  display: inline-block;
+  margin: 0;
+  vertical-align: middle;
+}
+
+#banner-title {
+  font-family: var(--font-family);
+  font-size: 14px;
+  margin: 0;
+  display: inline-block;
+}
+
+#banner-subtitle {
+  font-family: var(--font-family);
+  color: var(--first-color-sub2);
+  display: inline-block;
+}
+
+/*app*/
+/* controller: select -> matching -> selected*/
+.select #target-boards {
+  display: none;
+}
+
+.select #target-boards-result {
+  display: none;
+}
+
+#target-boards{
+  display: none;
+}
+
+.matching #target-boards{
+  display: block;
+}

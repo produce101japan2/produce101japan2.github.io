@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="google" content="notranslate"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="google-site-verification" content="7p1WafVpQTLkZyuTgblWByOqOKhbZ05coC5oHC3f8b0"/>
+  <meta property="og:title" content="Produce 101 Japan Season 2 推しMENメーカー"/>
+  <meta property="og:url" content="https://produce101japan2.github.io"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://produce101japan2.github.io/assets/thumbnail.png"/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@ai_var_">
+  <meta name="twitter:title" content="Produce 101 Japan Season 2 推しMENメーカー">
+  <meta name="twitter:image" content="https://produce101japan2.github.io/assets/thumbnail.png">
+  <meta name="thumbnail" content="https://produce101japan2.github.io/assets/thumbnail.png">
+
+  <link rel="icon" href="assets/pickme.png">
+  <link rel="stylesheet" type="text/css" media="screen" href="index.css?201910121652"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="sort.css?201910121652"/>
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Roboto+Condensed:400,700"
+        rel="stylesheet">
+  <title>Produce 101 Japan Season 2 推しMENチェッカー</title>
+</head>
+<body>
+<div id="top-banner">
+  <a href="/"><img id="banner-image" src="assets/logo.svg"/></a>
+  <p id="banner-subtitle">推しMENチェッカー(仮)</p>
+</div>
+<div id="controller" class="select">
+
+  <div id="target-boards">
+    <span id="target-rounds"></span> Rounds / <span class="target-estimated"></span> Rounds
+    <div id="target-boards-left">
+    </div>
+    <div id="target-boards-right">
+    </div>
+  </div>
+
+  <div id="target-boards-result">
+  </div>
+
+  <div id="setting">
+    上位
+    <input id="rank-pool" type="text" value="6"/>
+    人の中からTOP
+    <select id="rank-target">
+      <option value="100">100</option>
+      <option value="60">60</option>
+      <option value="11">11</option>
+      <option value="10">10</option>
+      <option value="9">9</option>
+      <option value="8">8</option>
+      <option value="7">7</option>
+      <option value="6">6</option>
+      <option value="5">5</option>
+      <option value="4">4</option>
+      <option value="3" selected>3</option>
+      <option value="2">2</option>
+      <option value="1">1</option>
+    </select>
+    位を決める！
+    <button type=button id="startCompetition">start</button>
+    <span class="target-estimated"></span> Rounds
+  </div>
+</div>
+
+<!-- Load in script files -->
+<script src="scripts/csv.js"></script>
+<script src="scripts/estimate/estimate.js?202104152357"></script>
+<script src="scripts/sort.js?202104152357"></script>
+
+</body>
+</html>
