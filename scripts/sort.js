@@ -1,12 +1,15 @@
 const MEMBER_FILE = "trainee_info.csv?202104152357";
 const CURRENT_BORDER = 60;
 const CURRENT_RANK_COLUMN = 12;
+//for maker
+const PYRAMID_MAX = 11; // sum of PYRAMID_ROWS
 
 let targetTop;
 let isJapanese = false;
 let trainees = [];
 let attendees;
 let history;
+let estimateCount = 0;
 
 const shuffle = ([...array]) => {
   for (let i = array.length - 1; i >= 0; i--) {
@@ -147,12 +150,15 @@ function renderMatch(id, me, other) {
   document.getElementById(id).onclick = "";
   document.getElementById(id).innerHTML =
       `<div class="image_large"><img src="assets/trainees_1/${trainee.image_large}" /></div>`
-      +`<div class="name">${trainee.name}</div>`
+      + `<div class="profile">`
+      + `<div class="rank">${trainee.rank}位</div>`
+      + `<div class="name">${trainee.name}</div>`
       + `<div class="birth">${trainee.birth}</div>`
       + `<div class="birthplace">${trainee.birthplace}</div>`
       + `<div class="heightWeight">${trainee.height}cm / ${trainee.weight}kg</div>`
       + `<div class="hobby">${trainee.hobby}</div>`
-      + `<div class="skills">${trainee.skills}</div>`;
+      + `<div class="skills">${trainee.skills}</div>`
+      + `</div>`;
   document.getElementById(id).onclick =
       () => {
         setCache(me, other, me);
@@ -174,6 +180,10 @@ function renderNextMatch() {
     renderResetMatch();
   } else {
     document.getElementById("target-rounds").innerText = Object.keys(history).length + 1;
+    if (estimateCount !== 0) {
+      const progress = Math.floor((Object.keys(history).length) * 100 / estimateCount);
+      document.getElementById("target-estimated-progress").innerText = `${progress}`;
+    }
     renderMatch("target-boards-left", nextMatch.require.l, nextMatch.require.r);
     renderMatch("target-boards-right", nextMatch.require.r, nextMatch.require.l);
   }
@@ -185,29 +195,48 @@ function renderResult(finalRanking) {
   for (let i = 0; i < finalRanking.length; i++) {
     const trainee = trainees[finalRanking[i]];
     htmlArray.push(
-        `<div class="ranking__rank">${i + 1}</div>`
+        `<div class="ranking__rank">${i + 1}位</div>`
         +
         `<div class="ranking__image"><img src="assets/trainees/${trainee.image}" alt="${trainee.name}"/></div>`
-        + `<div class="ranking" id="ranking__${i}">${trainee.id} ${trainee.name}</div>`
+        + `<div class="ranking" id="ranking__${i}">${trainee.name}</div>`
     );
   }
 
-  document.getElementById("target-boards-result").innerHTML = htmlArray.join("");
+  document.getElementById("target-boards-result_ranking").innerHTML = htmlArray.join("");
+  document.getElementById("target-boards-result_share").innerHTML =
+      `<a href="/?r=${encodePicks(finalRanking)}">結果を推しMENメーカーで開く</a>`;
   document.getElementById("controller").className = "selected";
 }
 
 function renderMatching() {
-  document.getElementById("target-boards-result").innerText = "";
   document.getElementById("controller").className = "matching";
 }
 
 function updateEstimate() {
   const target = document.getElementsByClassName("target-estimated");
-  const estimated = getEstimateRank(Number(document.getElementById("rank-pool").value),
-                                    Number(document.getElementById("rank-target").value));
+  estimateCount = getEstimateRank(Number(document.getElementById("rank-pool").value),
+                                  Number(document.getElementById("rank-target").value));
   for (let i = 0; i < target.length; i++) {
-    target[i].innerText = estimated;
+    target[i].innerText = estimateCount;
   }
+
+}
+
+function encodePicks(picksArr) {
+  let code = "";
+  for (let j = 0; j < PYRAMID_MAX; j++) {
+    const rank = (typeof picksArr[j] === 'undefined' || picksArr[j] == null) ? 0 : picksArr[j] + 1;
+    code = code + zeroPadding(rank.toString(32), 2);
+  }
+  return code;
+}
+
+function zeroPadding(num, length) {
+  var tempNum = num;
+  for (let i = 0; i < length + 1; i++) {
+    tempNum = '0' + tempNum;
+  }
+  return tempNum.slice(-length);
 }
 
 setLang();

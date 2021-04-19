@@ -64,8 +64,12 @@
   display: none;
 }
 
-.select #target-boards-result {
+#target-boards-result {
   display: none;
+}
+
+.selected #target-boards-result {
+  display: block;
 }
 
 #target-boards{
@@ -74,4 +78,61 @@
 
 .matching #target-boards{
   display: block;
+}
+
+/*controller*/
+#controller{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
+  justify-content: center;
+}
+
+/*match*/
+#target-boards-progress-status{
+  margin: 5px;
+}
+#target-boards-match{
+  display: flex;
+  flex-direction: row;
+}
+
+.target-boards-container{
+  position: relative;
+  padding: 5px;
+}
+
+.target-boards-container .profile {
+  position: absolute;
+  bottom: 0;
+  text-align: right;
+  margin: 5px;
+  right: 0;
+  width: inherit;
+  bottom: 5px;
+  background-color: rgba(46, 46, 46, 0.4);
+  color: var(--color-gray-second);
+}
+
+.target-boards-container:hover{
+  background-color: var(--second-color-sub);
+}
+
+.target-boards-container:hover img {
+  filter: opacity(90%);
+}
+
+.target-boards-container .image_large img{
+  width: 45vw;
+  max-width: 400px;
+}
+
+#target-boards-right div{
+  overflow-wrap: break-word;
+}
+
+/*result*/
+#target-boards-result{
+  width: 90vw;
+  max-width: 800px;
 }

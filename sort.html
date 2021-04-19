@@ -32,19 +32,25 @@
 <div id="controller" class="select">
 
   <div id="target-boards">
-    <span id="target-rounds"></span> Rounds / <span class="target-estimated"></span> Rounds
-    <div id="target-boards-left">
+    <div id="target-boards-progress-status">
+      <span id="target-rounds"></span> Rounds / progress <span id="target-estimated-progress"></span>%
     </div>
-    <div id="target-boards-right">
+    <div id="target-boards-match">
+      <div id="target-boards-left" class="target-boards-container">
+      </div>
+      <div id="target-boards-right" class="target-boards-container">
+      </div>
     </div>
   </div>
 
   <div id="target-boards-result">
+    <div id="target-boards-result_ranking"></div>
+    <div id="target-boards-result_share"></div>
   </div>
 
   <div id="setting">
     上位
-    <input id="rank-pool" type="text" value="6"/>
+    <input id="rank-pool" type="text" value="100"/>
     人の中からTOP
     <select id="rank-target">
       <option value="100">100</option>
@@ -57,14 +63,15 @@
       <option value="6">6</option>
       <option value="5">5</option>
       <option value="4">4</option>
-      <option value="3" selected>3</option>
+      <option value="3" >3</option>
       <option value="2">2</option>
-      <option value="1">1</option>
+      <option value="1" selected>1</option>
     </select>
     位を決める！
     <button type=button id="startCompetition">start</button>
-    <span class="target-estimated"></span> Rounds
+    (total <span class="target-estimated"></span> Rounds)
   </div>
+
 </div>
 
 <!-- Load in script files -->
