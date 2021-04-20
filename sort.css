@@ -268,7 +268,7 @@ progress::-ms-fill {
   height: 15px;
   left: 0;
   right: 0;
-  bottom: -10px;
+  bottom: -7px;
   margin: auto;
   border-radius: 50%;
   background-color: var(--first-color-sub2);
