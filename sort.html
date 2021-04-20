@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="google" content="notranslate"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="google-site-verification" content="7p1WafVpQTLkZyuTgblWByOqOKhbZ05coC5oHC3f8b0"/>
+  <meta property="og:title" content="Produce 101 Japan Season 2 推しMENチェッカー"/>
+  <meta property="og:url" content="https://produce101japan2.github.io"/>
+  <meta property="og:type" content="website"/>
+<!--  <meta property="og:image" content="https://produce101japan2.github.io/assets/thumbnail.png"/>-->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@ai_var_">
+  <meta name="twitter:title" content="Produce 101 Japan Season 2 推しMENチェッカー">
+<!--  <meta name="twitter:image" content="https://produce101japan2.github.io/assets/thumbnail.png">-->
+<!--  <meta name="thumbnail" content="https://produce101japan2.github.io/assets/thumbnail.png">-->
+
+  <link rel="icon" href="assets/pickme.png">
+  <link rel="stylesheet" type="text/css" media="screen" href="index.css?201910121652"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="sort.css?201910121652"/>
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Roboto+Condensed:400,700"
+        rel="stylesheet">
+  <title>Produce 101 Japan Season 2 推しMENチェッカー</title>
+</head>
+<body>
+<div id="top-banner">
+  <a href="/"><img id="banner-image" src="assets/logo.svg"/></a>
+  <p id="banner-subtitle">推しMENチェッカー</p>
+</div>
+<div id="controller" class="select">
+
+  <div id="target-boards">
+    <div id="target-boards-progress-status">
+      <progress id="target-estimated-progress-bar" max="100" value="70"><span
+        id="target-estimated-progress"></span>%
+      </progress>
+    </div>
+    <div id="target-rounds-space">
+      <span id="target-rounds"></span> Round
+    </div>
+    <div id="target-vs-space">
+      VS
+    </div>
+    <div id="target-boards-match">
+      <div id="target-boards-left" class="target-boards-container">
+      </div>
+      <div id="target-boards-right" class="target-boards-container">
+      </div>
+    </div>
+    <div id="target-boards-back"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-chevron-double-left">
+      <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+      <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+    </svg>BACK</div>
+  </div>
+
+  <div id="target-boards-result">
+    <div id="target-boards-result_ranking"></div>
+    <div id="target-boards-result_share"></div>
+  </div>
+
+  <div id="setting">
+    <div id="setting_panel">
+      私のTOP
+      <select id="rank-target">
+        <option value="1" selected>1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="60">60</option>
+        <option value="100">100</option>
+      </select>
+      位を順位
+      <input id="rank-pool" type="text" value="10"/>
+      位以内から決める！
+      <div id="setting_panel-round">
+        (max <span class="target-estimated"></span> rounds)
+      </div>
+      <div class="start_competition_space">
+        <button type=button id="start-competition" class="init-competition"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"  fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+          <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+        </svg> START</button>
+        <button type=button id="restart-competition" class="init-competition"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+          <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+        </svg> RESTART</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p><a href="/">推しMENメーカー</a> | <a href="/list.html">推しMENリスト</a></p>
+  <hr />
+  <p> <a href="https://produce48.github.io/">produce48</a> | <a
+    href="https://producex101.github.io/producex101/">producex101</a> | <a
+    href="https://produce101japan.github.io/">produce101japan</a>
+  </p>
+  <p>
+    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
+       data-url="https://produce101japan2.github.io/sort.html" data-hashtags="推しMENチェッカー,PRODUCE101JAPAN2"
+       data-show-count="false">Tweet</a>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  </p>
+</footer>
+
+<!-- Load in script files -->
+<script src="scripts/csv.js"></script>
+<script src="scripts/estimate/estimate.js?202104152357"></script>
+<script src="scripts/sort.js?202104152357"></script>
+
+</body>
+</html>
