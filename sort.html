@@ -33,7 +33,15 @@
 
   <div id="target-boards">
     <div id="target-boards-progress-status">
-      <span id="target-rounds"></span> Rounds / progress <span id="target-estimated-progress"></span>%
+      <progress id="target-estimated-progress-bar" max="100" value="70"><span
+        id="target-estimated-progress"></span>%
+      </progress>
+    </div>
+    <div id="target-rounds-space">
+      <span id="target-rounds"></span> Round
+    </div>
+    <div id="target-vs-space">
+      VS
     </div>
     <div id="target-boards-match">
       <div id="target-boards-left" class="target-boards-container">
@@ -49,27 +57,39 @@
   </div>
 
   <div id="setting">
-    上位
-    <input id="rank-pool" type="text" value="100"/>
-    人の中からTOP
-    <select id="rank-target">
-      <option value="100">100</option>
-      <option value="60">60</option>
-      <option value="11">11</option>
-      <option value="10">10</option>
-      <option value="9">9</option>
-      <option value="8">8</option>
-      <option value="7">7</option>
-      <option value="6">6</option>
-      <option value="5">5</option>
-      <option value="4">4</option>
-      <option value="3" >3</option>
-      <option value="2">2</option>
-      <option value="1" selected>1</option>
-    </select>
-    位を決める！
-    <button type=button id="startCompetition">start</button>
-    (total <span class="target-estimated"></span> Rounds)
+    <div id="setting_panel">
+      上位
+      <input id="rank-pool" type="text" value="100"/>
+      人の中からTOP
+      <select id="rank-target">
+        <option value="100">100</option>
+        <option value="60">60</option>
+        <option value="11">11</option>
+        <option value="10">10</option>
+        <option value="9">9</option>
+        <option value="8">8</option>
+        <option value="7">7</option>
+        <option value="6">6</option>
+        <option value="5">5</option>
+        <option value="4">4</option>
+        <option value="3">3</option>
+        <option value="2">2</option>
+        <option value="1" selected>1</option>
+      </select>
+      位を決める！
+      <div id="setting_panel-round">
+        (max <span class="target-estimated"></span> rounds)
+      </div>
+      <div class="start_competition_space">
+        <button type=button id="start-competition" class="init-competition"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"  fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+          <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+        </svg> START</button>
+        <button type=button id="restart-competition" class="init-competition"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+          <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+        </svg> RESTART</button>
+      </div>
+    </div>
   </div>
 
 </div>

@@ -125,9 +125,10 @@ function startCompetition(pool, top) {
   targetTop = top;
   for (let i = 0; i < Object.keys(trainees).length; i++) {
     if (trainees[i].rank <= pool) {
-      attendees.push(trainees[i].id)
+      attendees.push(trainees[i].id);
     }
   }
+  attendees = shuffle(attendees);
 }
 
 function setLang() {
@@ -149,16 +150,16 @@ function renderMatch(id, me, other) {
   const trainee = trainees[me];
   document.getElementById(id).onclick = "";
   document.getElementById(id).innerHTML =
-      `<div class="image_large"><img src="assets/trainees_1/${trainee.image_large}" /></div>`
+      `<div class="image_large"><img src="assets/trainees_1/${trainee.image_large}" />`
       + `<div class="profile">`
       + `<div class="rank">${trainee.rank}位</div>`
       + `<div class="name">${trainee.name}</div>`
-      + `<div class="birth">${trainee.birth}</div>`
-      + `<div class="birthplace">${trainee.birthplace}</div>`
-      + `<div class="heightWeight">${trainee.height}cm / ${trainee.weight}kg</div>`
-      + `<div class="hobby">${trainee.hobby}</div>`
-      + `<div class="skills">${trainee.skills}</div>`
-      + `</div>`;
+      + `<div class="name_sub profile_sub">(${trainee.name_sub})</div>`
+      + `<div class="birth profile_sub">${trainee.birthplace} ${trainee.birth}</div>`
+      + `<div class="heightWeight profile_sub">${trainee.height}cm,${trainee.weight}kg</div>`
+      + `<div class="hobby profile_sub">${trainee.hobby}</div>`
+      + `<div class="skills profile_sub">${trainee.skills}</div>`
+      + `</div></div>`;
   document.getElementById(id).onclick =
       () => {
         setCache(me, other, me);
@@ -166,23 +167,16 @@ function renderMatch(id, me, other) {
       };
 }
 
-function renderResetMatch() {
-  document.getElementById("target-boards-left").onclick = "";
-  document.getElementById("target-boards-right").onclick = "";
-  document.getElementById("target-boards-left").innerText = "";
-  document.getElementById("target-boards-right").innerText = "";
-}
-
 function renderNextMatch() {
   const nextMatch = getNextMatch(attendees, targetTop);
   if (nextMatch.require == null) {
     renderResult(nextMatch.result);
-    renderResetMatch();
   } else {
     document.getElementById("target-rounds").innerText = Object.keys(history).length + 1;
     if (estimateCount !== 0) {
       const progress = Math.floor((Object.keys(history).length) * 100 / estimateCount);
       document.getElementById("target-estimated-progress").innerText = `${progress}`;
+      document.getElementById("target-estimated-progress-bar").value = progress
     }
     renderMatch("target-boards-left", nextMatch.require.l, nextMatch.require.r);
     renderMatch("target-boards-right", nextMatch.require.r, nextMatch.require.l);
@@ -239,6 +233,13 @@ function zeroPadding(num, length) {
   return tempNum.slice(-length);
 }
 
+function onClickInitCompetition() {
+  renderMatching();
+  startCompetition(Number(document.getElementById("rank-pool").value),
+                   Number(document.getElementById("rank-target").value));
+  renderNextMatch();
+}
+
 setLang();
 
 readFromCSV(MEMBER_FILE,
@@ -249,13 +250,10 @@ readFromCSV(MEMBER_FILE,
 updateEstimate(Number(document.getElementById("rank-pool").value),
                Number(document.getElementById("rank-target").value));
 
-document.getElementById("startCompetition").onclick =
-    () => {
-      renderMatching();
-      startCompetition(Number(document.getElementById("rank-pool").value),
-                       Number(document.getElementById("rank-target").value));
-      renderNextMatch();
-    };
+const initCompetitionButton = document.getElementsByClassName("init-competition");
+for (let i = 0; i < initCompetitionButton.length; i++) {
+  initCompetitionButton[i].onclick = onClickInitCompetition;
+}
 
 document.getElementById("rank-pool").onchange =
     () => {
