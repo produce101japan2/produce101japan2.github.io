@@ -189,16 +189,27 @@ function renderResult(finalRanking) {
   for (let i = 0; i < finalRanking.length; i++) {
     const trainee = trainees[finalRanking[i]];
     htmlArray.push(
-        `<div class="ranking__rank">${i + 1}位</div>`
-        +
-        `<div class="ranking__image"><img src="assets/trainees/${trainee.image}" alt="${trainee.name}"/></div>`
-        + `<div class="ranking" id="ranking__${i}">${trainee.name}</div>`
+        `<div class="ranking__trainee">`
+        + `<div class="ranking__image">`
+        + `<div class="ranking__image-border ${trainee.grade}-rank-border"></div> `
+        + `<img src="assets/trainees/${trainee.image}" alt="${trainee.name}"/>`
+        + `<div class="ranking__rank">${i + 1}</div>`
+        + `</div>`
+        + `<div class="ranking__info">`
+        + `<div class="ranking__name" id="ranking__${i}">${trainee.name}</div>`
+        + `<div class="ranking__name-sub">(${trainee.name_sub})</div>`
+        + `</div>`
+        + `</div>`
     );
   }
 
   document.getElementById("target-boards-result_ranking").innerHTML = htmlArray.join("");
   document.getElementById("target-boards-result_share").innerHTML =
-      `<a href="/?r=${encodePicks(finalRanking)}">結果を推しMENメーカーで開く</a>`;
+      `<a href="/?r=${encodePicks(finalRanking)}">結果を推しMENメーカーで開く<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-box-arrow-up-right">
+  <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+  <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+</svg>
+</a>`;
   document.getElementById("controller").className = "selected";
 }
 

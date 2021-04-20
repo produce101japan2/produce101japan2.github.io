@@ -28,6 +28,26 @@
   --font-family: 'Noto Sans JP', 'Open Sans', sans-serif;
 }
 
+/* Different entry borders */
+.a-rank-border {
+  border: 2px solid var(--a-rank);
+}
+.b-rank-border {
+  border: 2px solid var(--b-rank);
+}
+.c-rank-border {
+  border: 2px solid var(--c-rank);
+}
+.d-rank-border {
+  border: 2px solid var(--d-rank);
+}
+.f-rank-border {
+  border: 2px solid var(--f-rank);
+}
+.x-rank-border {
+  border: 2px solid var(--x-rank);
+}
+
 /* Styles for banner */
 #top-banner {
   background: radial-gradient(circle, #FFFFFF, var(--first-color-sub) 80%);
@@ -206,12 +226,68 @@ progress::-ms-fill {
 
 /*result*/
 #target-boards-result {
-  width: 90vw;
-  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
 }
 
+.ranking__trainee{
+  display: flex;
+  flex-direction: row;
+  margin: 12px;
+}
+
+.ranking__image{
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: inline-block;
+  box-sizing: border-box;
+  position: relative;
+}
+.ranking__image img{
+  border-radius: 50%;
+  width: inherit;
+  height: inherit;
+}
+
+.ranking__image-border{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.ranking__rank {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  left: 0;
+  right: 0;
+  bottom: -10px;
+  margin: auto;
+  border-radius: 50%;
+  background-color: var(--first-color-sub2);
+  box-sizing: border-box;
+  font-weight: 900;
+  font-size: 8px;
+  text-align: center;
+  color: white;
+}
+
+.ranking__info{
+  padding: 10px;
+}
+
+.ranking__name-sub{
+  font-size: 11px;
+}
+
+#target-boards-result_share{
+  margin-top: 20px;
+}
 /*setting*/
 #setting {
   max-width: 800px;
