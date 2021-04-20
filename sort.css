@@ -208,7 +208,6 @@ progress::-ms-fill {
 #target-rounds-space {
   top: 10px;
   text-align: center;
-  /* padding-top: 30px; */
   position: relative;
   z-index: 1;
   height: 0;
@@ -217,13 +216,16 @@ progress::-ms-fill {
 #target-vs-space {
   top: 40px;
   text-align: center;
-  /* padding-top: 30px; */
   position: relative;
   z-index: 1;
   height: 0;
   font-size: 36px;
 }
 
+#target-boards-back {
+  cursor: pointer;
+  color: blue;
+}
 /*result*/
 #target-boards-result {
   margin-left: auto;

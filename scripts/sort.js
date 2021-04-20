@@ -62,11 +62,15 @@ function convertCSVArrayToTraineeData(csvArrays) {
 }
 
 function getCache(l, r) {
-  return history[getMatchKey(l, r)];
+  const m = history.filter(e => e.key === getMatchKey(l, r));
+  return m.length > 0 ? m[0].value : null;
 }
 
 function setCache(l, r, w) {
-  return history[getMatchKey(l, r)] = w;
+  return history.push({
+                        key: getMatchKey(l, r),
+                        value: w
+                      });
 }
 
 function getMatchKey(l, r) {
@@ -86,7 +90,7 @@ function getNextMatch(attendees, top) {
         const left = trainees[roundAttendees[i * 2]].id;
         const right = trainees[roundAttendees[i * 2 + 1]].id;
         const cache = getCache(left, right);
-        if (typeof cache === "undefined") {
+        if (cache === null) {
           return {
             require: {
               l: left,
@@ -109,7 +113,7 @@ function getNextMatch(attendees, top) {
       }
     }
     if (unfixedAttendees.length === 1) {
-      sortedNumbers.push(unfixedAttendees[0])
+      sortedNumbers.push(unfixedAttendees[0]);
       break;
     }
   }
@@ -121,7 +125,7 @@ function getNextMatch(attendees, top) {
 
 function startCompetition(pool, top) {
   attendees = [];
-  history = {};
+  history = [];
   targetTop = top;
   for (let i = 0; i < Object.keys(trainees).length; i++) {
     if (trainees[i].rank <= pool) {
@@ -172,9 +176,9 @@ function renderNextMatch() {
   if (nextMatch.require == null) {
     renderResult(nextMatch.result);
   } else {
-    document.getElementById("target-rounds").innerText = Object.keys(history).length + 1;
+    document.getElementById("target-rounds").innerText = history.length + 1;
     if (estimateCount !== 0) {
-      const progress = Math.floor((Object.keys(history).length) * 100 / estimateCount);
+      const progress = Math.floor(history.length * 100 / estimateCount);
       document.getElementById("target-estimated-progress").innerText = `${progress}`;
       document.getElementById("target-estimated-progress-bar").value = progress
     }
@@ -273,4 +277,10 @@ document.getElementById("rank-pool").onchange =
 document.getElementById("rank-target").onchange =
     () => {
       updateEstimate();
+    };
+
+document.getElementById("target-boards-back").onclick =
+    () => {
+      history = history.slice(0, history.length - 1);
+      renderNextMatch();
     };
