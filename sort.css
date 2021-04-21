@@ -100,6 +100,18 @@
   display: block;
 }
 
+.message{
+  display: none;
+}
+
+.lang-en *[lang=en] {
+  display: contents;
+}
+
+.lang-ja *[lang=ja] {
+  display: contents;
+}
+
 /*controller*/
 #controller {
   display: flex;
@@ -188,11 +200,11 @@ progress::-ms-fill {
 }
 
 #target-boards-left {
-  margin: 1vw;
+  margin: 10px 1vw 10px 1vw;
 }
 
 #target-boards-right {
-  margin: 1vw 1vw 1vw 0;
+  margin: 10px 1vw 10px 0;
 }
 
 @media screen and (max-width: 800px) {
@@ -290,6 +302,11 @@ progress::-ms-fill {
 #target-boards-result_share{
   margin-top: 20px;
 }
+
+#target-boards-result_share-twitter{
+  margin-top: 20px;
+}
+
 /*setting*/
 #setting {
   max-width: 800px;

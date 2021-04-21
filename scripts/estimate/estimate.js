@@ -59,7 +59,7 @@ function getEstimateHeap(pool, top) {
   for (let i = 0; i < pool; i++) {
     attendeesSorted.push(i)
   }
-  attendeesSorted=shuffle(attendeesSorted);
+  attendeesSorted = shuffle(attendeesSorted);
 
   for (let i = (pool + pool % 2) / 2 - 1; i >= 0; i--) {
     getEstimateEHeap(attendeesSorted, i, attendeesSorted.length - 1);
@@ -86,18 +86,16 @@ function getEstimateERank(pool) {
 }
 
 function getEstimateRank(pool, top) {
-  if (pool < top) {
-    return -1;
-  }
+  const max = pool < top ? pool : top;
   let attendeesSorted = [];
   estimateCache = {};
   estimateFightCount = 0;
   estimateRanking = [];
   for (let i = 0; i < pool; i++) {
-    attendeesSorted.push(pool - i -1);
+    attendeesSorted.push(pool - i - 1);
   }
 
-  for (let i = 0; i < top; i++) {
+  for (let i = 0; i < max; i++) {
     for (let nextPool = attendeesSorted.slice(0, attendeesSorted.length); ;) {
       nextPool = getEstimateERank(nextPool);
       if (nextPool.length <= 1) {
