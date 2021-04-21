@@ -236,8 +236,9 @@ function renderMatching() {
 
 function updateEstimate() {
   const target = document.getElementsByClassName("target-estimated");
-  estimateCount = getEstimateRank(Number(document.getElementById("rank-pool").value),
-                                  Number(document.getElementById("rank-target").value));
+  const poolNum = Number(document.getElementById("rank-pool").value);
+  const targetNum = Number(document.getElementById("rank-target").value);
+  estimateCount = poolNum * targetNum - (targetNum + 1) * targetNum / 2;
   for (let i = 0; i < target.length; i++) {
     target[i].innerText = estimateCount;
   }
