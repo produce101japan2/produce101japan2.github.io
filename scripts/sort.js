@@ -111,6 +111,8 @@ function getNextMatch(attendees, top) {
       } else {
         roundAttendees = nextAttendees;
       }
+      const first = roundAttendees.shift();
+      roundAttendees.push(first);
     }
     if (unfixedAttendees.length === 1) {
       sortedNumbers.push(unfixedAttendees[0]);
@@ -156,7 +158,7 @@ function renderMatch(id, me, other) {
   document.getElementById(id).innerHTML =
       `<div class="image_large"><img src="assets/trainees_1/${trainee.image_large}" />`
       + `<div class="profile">`
-      + `<div class="rank">${trainee.rank}位</div>`
+      + `<div class="rank">${trainee.id} - ${trainee.rank}位</div>`
       + `<div class="name">${trainee.name}</div>`
       + `<div class="name_sub profile_sub">(${trainee.name_sub})</div>`
       + `<div class="birth profile_sub">${trainee.birthplace} ${trainee.birth}</div>`
