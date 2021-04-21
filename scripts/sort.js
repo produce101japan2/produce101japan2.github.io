@@ -4,6 +4,9 @@ const CURRENT_RANK_COLUMN = 12;
 //for maker
 const PYRAMID_MAX = 11; // sum of PYRAMID_ROWS
 const CODE_PARAM = "r";
+const PARAM_RESULT = "r";
+const PARAM_POOL = "p";
+const PARAM_TARGET_RANK = "t";
 const URL_PREFIX = "https://produce101japan2.github.io/sort.html?r=";
 const MAX_TRAINEE = 101;
 
@@ -252,7 +255,6 @@ function encodePicks(picksArr, len) {
 
 function decodePicks(code) {
   let picksArr = [];
-  console.log(code.length)
   for (let j = 0; j < MAX_TRAINEE && j * 2 < code.length - 1; j++) {
     console.log("");
     const v = parseInt(code.substr(j * 2, 2), 32);
@@ -283,11 +285,17 @@ function onClickInitCompetition() {
 
 function renderFromParam() {
   const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.has(CODE_PARAM)) {
-    const code = urlParams.get(CODE_PARAM);
-    const result = decodePicks(code);
+  if (urlParams.has(PARAM_RESULT)) {
+    const pResult = urlParams.get(PARAM_RESULT);
+    const result = decodePicks(pResult);
     console.log("load result: " + result);
     renderResult(result);
+  }
+  if (urlParams.has(PARAM_POOL)) {
+    document.getElementById("rank-pool").value = urlParams.get(PARAM_POOL);
+  }
+  if (urlParams.has(PARAM_TARGET_RANK)) {
+    document.getElementById("rank-target").value = urlParams.get(PARAM_TARGET_RANK);
   }
 }
 
