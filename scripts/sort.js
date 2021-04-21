@@ -3,6 +3,9 @@ const CURRENT_BORDER = 60;
 const CURRENT_RANK_COLUMN = 12;
 //for maker
 const PYRAMID_MAX = 11; // sum of PYRAMID_ROWS
+const CODE_PARAM = "r";
+const URL_PREFIX = "https://produce101japan2.github.io/sort.html?r=";
+const MAX_TRAINEE = 101;
 
 let targetTop;
 let isJapanese = false;
@@ -149,6 +152,9 @@ function setLang() {
 
   if (isJapanese) {
     document.documentElement.lang = "ja";
+    document.getElementById("multi-lang").className = "lang-ja";
+  } else {
+    document.getElementById("multi-lang").className = "lang-en";
   }
 }
 
@@ -210,12 +216,14 @@ function renderResult(finalRanking) {
   }
 
   document.getElementById("target-boards-result_ranking").innerHTML = htmlArray.join("");
-  document.getElementById("target-boards-result_share").innerHTML =
-      `<a href="/?r=${encodePicks(finalRanking)}">結果を推しMENメーカーで開く<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-box-arrow-up-right">
-  <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
-  <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
-</svg>
-</a>`;
+  document.getElementById("target-boards-result_share_a")
+      .setAttribute("href", `/?r=${encodePicks(finalRanking, PYRAMID_MAX)}`);
+
+  const shareUrl = `${URL_PREFIX}${encodePicks(finalRanking, finalRanking.length)}`;
+  document.getElementById("target-boards-result_share-twitter_a")
+      .setAttribute("href",
+                    `https://twitter.com/intent/tweet?text=${shareUrl}&hashtags=推しMENチェッカー,PRODUCE101JAPAN2`);
+
   document.getElementById("controller").className = "selected";
 }
 
@@ -233,13 +241,29 @@ function updateEstimate() {
 
 }
 
-function encodePicks(picksArr) {
+function encodePicks(picksArr, len) {
   let code = "";
-  for (let j = 0; j < PYRAMID_MAX; j++) {
+  for (let j = 0; j < len; j++) {
     const rank = (typeof picksArr[j] === 'undefined' || picksArr[j] == null) ? 0 : picksArr[j] + 1;
     code = code + zeroPadding(rank.toString(32), 2);
   }
   return code;
+}
+
+function decodePicks(code) {
+  let picksArr = [];
+  console.log(code.length)
+  for (let j = 0; j < MAX_TRAINEE && j * 2 < code.length - 1; j++) {
+    console.log("");
+    const v = parseInt(code.substr(j * 2, 2), 32);
+    if (v === 0) {
+      picksArr[j] = null;
+    } else {
+      picksArr[j] = v - 1;
+    }
+    console.log(v);
+  }
+  return picksArr;
 }
 
 function zeroPadding(num, length) {
@@ -257,12 +281,24 @@ function onClickInitCompetition() {
   renderNextMatch();
 }
 
+function renderFromParam() {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has(CODE_PARAM)) {
+    const code = urlParams.get(CODE_PARAM);
+    const result = decodePicks(code);
+    console.log("load result: " + result);
+    renderResult(result);
+  }
+}
+
 setLang();
 
 readFromCSV(MEMBER_FILE,
             (t) => {
               trainees = t;
             });
+
+renderFromParam();
 
 updateEstimate(Number(document.getElementById("rank-pool").value),
                Number(document.getElementById("rank-target").value));
