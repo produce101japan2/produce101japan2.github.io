@@ -278,10 +278,18 @@ function zeroPadding(num, length) {
 }
 
 function onClickInitCompetition() {
-  renderMatching();
-  startCompetition(Number(document.getElementById("rank-pool").value),
-                   Number(document.getElementById("rank-target").value));
-  renderNextMatch();
+  const errorNode = document.getElementById("start-competition_error");
+  errorNode.classList.remove("setting-error");
+  const pool = Number(document.getElementById("rank-pool").value);
+  const target = Number(document.getElementById("rank-target").value);
+  if (pool >= target) {
+    renderMatching();
+    startCompetition(Number(document.getElementById("rank-pool").value),
+                     Number(document.getElementById("rank-target").value));
+    renderNextMatch();
+  } else {
+    errorNode.classList.add("setting-error");
+  }
 }
 
 function renderFromParam() {
