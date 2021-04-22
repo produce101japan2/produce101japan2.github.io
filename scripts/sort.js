@@ -1,6 +1,6 @@
 const MEMBER_FILE = "trainee_info.csv?202104222132";
 const CURRENT_BORDER = 60;
-const CURRENT_RANK_COLUMN = 12;
+const CURRENT_RANK_COLUMN = 13;
 //for maker
 const PYRAMID_MAX = 11; // sum of PYRAMID_ROWS
 const CODE_PARAM = "r";
