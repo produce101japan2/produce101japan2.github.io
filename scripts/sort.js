@@ -167,7 +167,7 @@ function renderMatch(id, me, other) {
   document.getElementById(id).innerHTML =
       `<div class="image_large"><img src="assets/trainees_1/${trainee.image_large}" />`
       + `<div class="profile">`
-      + `<div class="rank">${trainee.id} - ${trainee.rank}位</div>`
+      + `<div class="rank">${trainee.rank}位</div>`
       + `<div class="name">${trainee.name}</div>`
       + `<div class="name_sub profile_sub">(${trainee.name_sub})</div>`
       + `<div class="birth profile_sub">${trainee.birthplace} ${trainee.birth}</div>`
@@ -235,10 +235,10 @@ function renderMatching() {
 }
 
 function updateEstimate() {
-  const target = document.getElementsByClassName("target-estimated");
   const poolNum = Number(document.getElementById("rank-pool").value);
   const targetNum = Number(document.getElementById("rank-target").value);
-  estimateCount = poolNum * targetNum - (targetNum + 1) * targetNum / 2;
+  estimateCount = getEstimateRank(poolNum, targetNum);
+  const target = document.getElementsByClassName("target-estimated");
   for (let i = 0; i < target.length; i++) {
     target[i].innerText = estimateCount;
   }
