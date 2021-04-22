@@ -223,6 +223,7 @@ function renderResult(finalRanking) {
       .setAttribute("href", `/?r=${encodePicks(finalRanking, PYRAMID_MAX)}`);
 
   const shareUrl = `${URL_PREFIX}${encodePicks(finalRanking, finalRanking.length)}`;
+  document.getElementById("target-boards-result_share-url-v").value = shareUrl;
   document.getElementById("target-boards-result_share-twitter_a")
       .setAttribute("href",
                     `https://twitter.com/intent/tweet?text=${shareUrl}&hashtags=推しMENチェッカー,PRODUCE101JAPAN2`);
@@ -338,4 +339,17 @@ document.getElementById("target-boards-back").onclick =
     () => {
       history = history.slice(0, history.length - 1);
       renderNextMatch();
+    };
+
+document.getElementById("target-boards-result_share-copy").onclick =
+    () => {
+      const url = document.getElementById("target-boards-result_share-url-v").value;
+      const listener = function(e){
+        e.clipboardData.setData("text/plain" , url);
+        e.preventDefault();
+        document.removeEventListener("copy", listener);
+      };
+      document.addEventListener("copy" , listener);
+      document.execCommand("copy");
+      alert("URL copied!");
     };

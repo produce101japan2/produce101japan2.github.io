@@ -310,8 +310,47 @@ progress::-ms-fill {
   margin-top: 20px;
 }
 
-#target-boards-result_share-twitter {
-  margin-top: 20px;
+.target-boards-result_share-url-button {
+  box-sizing: border-box;
+  position: relative;
+  border-top: 1px solid var(--first-color-sub2);
+  border-bottom: 1px solid var(--first-color-sub2);
+  display: block;
+  padding: 10px 5px;
+  overflow: hidden;
+  color: var(--first-color-sub2);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#target-boards-result_share-twitter_a{
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+  border: 1px solid var(--first-color-sub2);
+
+}
+
+#target-boards-result_share-url{
+  display: flex;
+  flex-direction: row;
+  margin-top:20px;
+}
+
+#target-boards-result_share-title {
+  box-sizing: border-box;
+  position: relative;
+  border: 1px solid var(--first-color-sub2);
+  background-color: var(--first-color-sub2);
+  display: block;
+  padding: 10px 5px;
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+  overflow: hidden;
+  color: #fff;
+}
+
+#target-boards-result_share-url-text{
+  display: none;
 }
 
 /*setting*/
