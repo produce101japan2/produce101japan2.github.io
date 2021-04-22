@@ -47,7 +47,7 @@ function convertCSVArrayToTraineeData(csvArrays) {
     const trainee = {};
     trainee.id = parseInt(traineeArray[0].split('_')[0]) - 1;
     trainee.image = traineeArray[0] + ".jpg";
-    trainee.image_large = traineeArray[0] + "_1.jpg";
+    trainee.image_large = traineeArray[0] + ".jpg";
     trainee.name = isJapanese ? traineeArray[1] : traineeArray[2];
     trainee.name_sub = isJapanese ? traineeArray[2] : traineeArray[1];
     trainee.rank = traineeArray[CURRENT_RANK_COLUMN] || 1;
