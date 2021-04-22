@@ -104,6 +104,8 @@ function getEstimateRank(pool, top) {
 
         break;
       }
+      const n = nextPool.shift();
+      nextPool.push(n);
     }
   }
 

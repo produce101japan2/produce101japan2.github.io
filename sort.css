@@ -32,18 +32,23 @@
 .a-rank-border {
   border: 2px solid var(--a-rank);
 }
+
 .b-rank-border {
   border: 2px solid var(--b-rank);
 }
+
 .c-rank-border {
   border: 2px solid var(--c-rank);
 }
+
 .d-rank-border {
   border: 2px solid var(--d-rank);
 }
+
 .f-rank-border {
   border: 2px solid var(--f-rank);
 }
+
 .x-rank-border {
   border: 2px solid var(--x-rank);
 }
@@ -100,7 +105,7 @@
   display: block;
 }
 
-.message{
+.message {
   display: none;
 }
 
@@ -238,19 +243,20 @@ progress::-ms-fill {
   cursor: pointer;
   color: blue;
 }
+
 /*result*/
 #target-boards-result {
   margin-left: auto;
   margin-right: auto;
 }
 
-.ranking__trainee{
+.ranking__trainee {
   display: flex;
   flex-direction: row;
   margin: 12px;
 }
 
-.ranking__image{
+.ranking__image {
   border-radius: 50%;
   width: 60px;
   height: 60px;
@@ -258,13 +264,14 @@ progress::-ms-fill {
   box-sizing: border-box;
   position: relative;
 }
-.ranking__image img{
+
+.ranking__image img {
   border-radius: 50%;
   width: inherit;
   height: inherit;
 }
 
-.ranking__image-border{
+.ranking__image-border {
   position: absolute;
   top: 0;
   left: 0;
@@ -291,20 +298,59 @@ progress::-ms-fill {
   color: white;
 }
 
-.ranking__info{
+.ranking__info {
   padding: 10px;
 }
 
-.ranking__name-sub{
+.ranking__name-sub {
   font-size: 11px;
 }
 
-#target-boards-result_share{
+#target-boards-result_share {
   margin-top: 20px;
 }
 
-#target-boards-result_share-twitter{
-  margin-top: 20px;
+.target-boards-result_share-url-button {
+  box-sizing: border-box;
+  position: relative;
+  border-top: 1px solid var(--first-color-sub2);
+  border-bottom: 1px solid var(--first-color-sub2);
+  display: block;
+  padding: 10px 5px;
+  overflow: hidden;
+  color: var(--first-color-sub2);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#target-boards-result_share-twitter_a{
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+  border: 1px solid var(--first-color-sub2);
+
+}
+
+#target-boards-result_share-url{
+  display: flex;
+  flex-direction: row;
+  margin-top:20px;
+}
+
+#target-boards-result_share-title {
+  box-sizing: border-box;
+  position: relative;
+  border: 1px solid var(--first-color-sub2);
+  background-color: var(--first-color-sub2);
+  display: block;
+  padding: 10px 5px;
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+  overflow: hidden;
+  color: #fff;
+}
+
+#target-boards-result_share-url-text{
+  display: none;
 }
 
 /*setting*/
@@ -348,4 +394,13 @@ progress::-ms-fill {
 
 .start_competition_space {
   width: 100%;
+}
+
+#start-competition_error{
+  display: none;
+}
+#start-competition_error.setting-error {
+  font-size: 10px;
+  color: red;
+  display: contents;
 }

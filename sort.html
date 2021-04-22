@@ -9,12 +9,12 @@
   <meta property="og:title" content="Produce 101 Japan Season 2 推しMENチェッカー"/>
   <meta property="og:url" content="https://produce101japan2.github.io"/>
   <meta property="og:type" content="website"/>
-  <!--  <meta property="og:image" content="https://produce101japan2.github.io/assets/thumbnail.png"/>-->
+  <meta property="og:image" content="https://produce101japan2.github.io/assets/thumbnail_sort.png"/>
   <meta name="twitter:card" content="summary">
   <meta name="twitter:site" content="@ai_var_">
   <meta name="twitter:title" content="Produce 101 Japan Season 2 推しMENチェッカー">
-  <!--  <meta name="twitter:image" content="https://produce101japan2.github.io/assets/thumbnail.png">-->
-  <!--  <meta name="thumbnail" content="https://produce101japan2.github.io/assets/thumbnail.png">-->
+  <meta name="twitter:image" content="https://produce101japan2.github.io/assets/thumbnail_sort.png">
+  <meta name="thumbnail" content="https://produce101japan2.github.io/assets/thumbnail_sort.png">
 
   <link rel="icon" href="assets/pickme.png">
   <link rel="stylesheet" type="text/css" media="screen" href="index.css?201910121652"/>
@@ -64,16 +64,37 @@
 
     <div id="target-boards-result">
       <div id="target-boards-result_ranking"></div>
-      <div id="target-boards-result_share-twitter">
-        <a id="target-boards-result_share-twitter_a" href="/" target="_blank" rel="noopener noreferrer">
-          <span class="message" lang="ja">結果をTwitterでShare</span>
-          <span class="message" lang="en">Share result to twitter</span>
+      <div id="target-boards-result_share-sns">
+
+      <span id="target-boards-result_share-url">
+        <div id="target-boards-result_share-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+             class="bi bi-share-fill" viewBox="0 0 16 16">
+          <path
+            d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/>
+        </svg> URL</div>
+        <div id="target-boards-result_share-copy" class="target-boards-result_share-url-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+               class="bi bi-files" viewBox="0 0 16 16">
+            <path
+              d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"/>
+          </svg> copy</div>
+        <a id="target-boards-result_share-twitter_a" href="/" target="_blank" rel="noopener noreferrer"
+           class="target-boards-result_share-url-button">
           <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
                class="bi bi-twitter">
             <path
               d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
           </svg>
-        </a></div>
+          <span class="message" lang="ja">ツイッター</span>
+          <span class="message" lang="en">Twitter</span>
+        </a>
+      </span>
+        <div id="target-boards-result_share-url-text">
+          <input type="text" id="target-boards-result_share-url-v" readonly>
+        </div>
+      </div>
+
       <div id="target-boards-result_share"><a id="target-boards-result_share_a" href="/" target="_blank">
         <span class="message" lang="ja">結果を推しMENメーカーで開く</span>
         <span class="message" lang="en">Open in OSHI-MEN Maker</span>
@@ -257,7 +278,7 @@
         </select>
         <span class="message" lang="ja">位以内から決める！</span>
         <div id="setting_panel-round">
-          (max <span class="target-estimated"></span> rounds)
+          (<span class="message" lang="ja">推定</span><span class="message" lang="en">estimated</span> <span class="target-estimated"></span> rounds)
         </div>
         <div class="start_competition_space">
           <button type=button id="start-competition" class="init-competition">
@@ -277,6 +298,9 @@
             </svg>
             RESTART
           </button>
+          <div id="start-competition_error">
+            <span class="message" lang="ja">ターゲット順位が大きすぎます。</span>
+            <span class="message" lang="en">please check number.</span></div>
         </div>
       </div>
     </div>
@@ -301,8 +325,8 @@
 </div>
 <!-- Load in script files -->
 <script src="scripts/csv.js"></script>
-<script src="scripts/estimate/estimate.js?202104152357"></script>
-<script src="scripts/sort.js?20210415235"></script>
+<script src="scripts/estimate/estimate.js?202104222132"></script>
+<script src="scripts/sort.js?202104222132"></script>
 
 </body>
 </html>

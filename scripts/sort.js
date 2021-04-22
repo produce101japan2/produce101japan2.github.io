@@ -1,6 +1,6 @@
-const MEMBER_FILE = "trainee_info.csv?202104152357";
+const MEMBER_FILE = "trainee_info.csv?202104222132";
 const CURRENT_BORDER = 60;
-const CURRENT_RANK_COLUMN = 12;
+const CURRENT_RANK_COLUMN = 13;
 //for maker
 const PYRAMID_MAX = 11; // sum of PYRAMID_ROWS
 const CODE_PARAM = "r";
@@ -47,7 +47,7 @@ function convertCSVArrayToTraineeData(csvArrays) {
     const trainee = {};
     trainee.id = parseInt(traineeArray[0].split('_')[0]) - 1;
     trainee.image = traineeArray[0] + ".jpg";
-    trainee.image_large = traineeArray[0] + "_1.jpg";
+    trainee.image_large = traineeArray[0] + ".jpg";
     trainee.name = isJapanese ? traineeArray[1] : traineeArray[2];
     trainee.name_sub = isJapanese ? traineeArray[2] : traineeArray[1];
     trainee.rank = traineeArray[CURRENT_RANK_COLUMN] || 1;
@@ -167,7 +167,7 @@ function renderMatch(id, me, other) {
   document.getElementById(id).innerHTML =
       `<div class="image_large"><img src="assets/trainees_1/${trainee.image_large}" />`
       + `<div class="profile">`
-      + `<div class="rank">${trainee.id} - ${trainee.rank}位</div>`
+      + `<div class="rank">${trainee.rank}位</div>`
       + `<div class="name">${trainee.name}</div>`
       + `<div class="name_sub profile_sub">(${trainee.name_sub})</div>`
       + `<div class="birth profile_sub">${trainee.birthplace} ${trainee.birth}</div>`
@@ -223,6 +223,7 @@ function renderResult(finalRanking) {
       .setAttribute("href", `/?r=${encodePicks(finalRanking, PYRAMID_MAX)}`);
 
   const shareUrl = `${URL_PREFIX}${encodePicks(finalRanking, finalRanking.length)}`;
+  document.getElementById("target-boards-result_share-url-v").value = shareUrl;
   document.getElementById("target-boards-result_share-twitter_a")
       .setAttribute("href",
                     `https://twitter.com/intent/tweet?text=${shareUrl}&hashtags=推しMENチェッカー,PRODUCE101JAPAN2`);
@@ -235,10 +236,10 @@ function renderMatching() {
 }
 
 function updateEstimate() {
-  const target = document.getElementsByClassName("target-estimated");
   const poolNum = Number(document.getElementById("rank-pool").value);
   const targetNum = Number(document.getElementById("rank-target").value);
-  estimateCount = poolNum * targetNum - (targetNum + 1) * targetNum / 2;
+  estimateCount = getEstimateRank(poolNum, targetNum);
+  const target = document.getElementsByClassName("target-estimated");
   for (let i = 0; i < target.length; i++) {
     target[i].innerText = estimateCount;
   }
@@ -278,10 +279,18 @@ function zeroPadding(num, length) {
 }
 
 function onClickInitCompetition() {
-  renderMatching();
-  startCompetition(Number(document.getElementById("rank-pool").value),
-                   Number(document.getElementById("rank-target").value));
-  renderNextMatch();
+  const errorNode = document.getElementById("start-competition_error");
+  errorNode.classList.remove("setting-error");
+  const pool = Number(document.getElementById("rank-pool").value);
+  const target = Number(document.getElementById("rank-target").value);
+  if (pool >= target) {
+    renderMatching();
+    startCompetition(Number(document.getElementById("rank-pool").value),
+                     Number(document.getElementById("rank-target").value));
+    renderNextMatch();
+  } else {
+    errorNode.classList.add("setting-error");
+  }
 }
 
 function renderFromParam() {
@@ -330,4 +339,17 @@ document.getElementById("target-boards-back").onclick =
     () => {
       history = history.slice(0, history.length - 1);
       renderNextMatch();
+    };
+
+document.getElementById("target-boards-result_share-copy").onclick =
+    () => {
+      const url = document.getElementById("target-boards-result_share-url-v").value;
+      const listener = function(e){
+        e.clipboardData.setData("text/plain" , url);
+        e.preventDefault();
+        document.removeEventListener("copy", listener);
+      };
+      document.addEventListener("copy" , listener);
+      document.execCommand("copy");
+      alert("URL copied!");
     };
