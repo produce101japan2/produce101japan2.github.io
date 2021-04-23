@@ -3,19 +3,26 @@ const CURRENT_BORDER = 60;
 const CURRENT_RANK_COLUMN = 13;
 //for maker
 const PYRAMID_MAX = 11; // sum of PYRAMID_ROWS
-const CODE_PARAM = "r";
 const PARAM_RESULT = "r";
 const PARAM_POOL = "p";
 const PARAM_TARGET_RANK = "t";
-const URL_PREFIX = "https://produce101japan2.github.io/sort.html?r=";
+const PARAM_CUSTOM_POOL = "c";
+const PARAM_NOT_CUSTOM_POOL = "n";
+const URL = "https://produce101japan2.github.io/sort.html";
+const URL_PREFIX = `${URL}?r=`;
 const MAX_TRAINEE = 101;
+const RETIRED_TRAINEE = "91";
+
+const CUSTOM_POOL_VALUE = "custom";
 
 let targetTop;
 let isJapanese = false;
-let trainees = [];
+let trainees;
+let allTrainees;
 let attendees;
 let history;
 let estimateCount = 0;
+let attendeesPreview = [];
 
 const shuffle = ([...array]) => {
   for (let i = array.length - 1; i >= 0; i--) {
@@ -131,16 +138,10 @@ function getNextMatch(attendees, top) {
   };
 }
 
-function startCompetition(pool, top) {
-  attendees = [];
+function startCompetition(top) {
+  attendees = shuffle(attendeesPreview.slice(0, attendeesPreview.length));
   history = [];
   targetTop = top;
-  for (let i = 0; i < Object.keys(trainees).length; i++) {
-    if (trainees[i].rank <= pool) {
-      attendees.push(trainees[i].id);
-    }
-  }
-  attendees = shuffle(attendees);
 }
 
 function setLang() {
@@ -226,7 +227,8 @@ function renderResult(finalRanking) {
   document.getElementById("target-boards-result_share-url-v").value = shareUrl;
   document.getElementById("target-boards-result_share-twitter_a")
       .setAttribute("href",
-                    `https://twitter.com/intent/tweet?text=${shareUrl}&hashtags=推しMENチェッカー,PRODUCE101JAPAN2`);
+                    `https://twitter.com/intent/tweet?url=${encodeURI(
+                        shareUrl)}&hashtags=推しMENチェッカー,PRODUCE101JAPAN2`);
 
   document.getElementById("controller").className = "selected";
 }
@@ -235,8 +237,104 @@ function renderMatching() {
   document.getElementById("controller").className = "matching";
 }
 
+function renderAttendeesPreview() {
+  const htmlArray = [];
+  for (let i = 0; i < allTrainees.length; i++) {
+    const id = allTrainees[i];
+    const trainee = trainees[id];
+    const isAttendee = attendeesPreview.includes(trainees[id].id) ? "attend-on" : "attend-off";
+    htmlArray.push(
+        `<div class="attendee-preview-trainee ${isAttendee}" id="attendee-preview-trainee-${id}" data-trainee="${id}">`
+        + `<div class="attendee-preview-image">`
+        + `<div class="attendee-preview-image-border ${trainee.grade}-rank-border"></div> `
+        + `<img src="assets/trainees/${trainee.image}" alt="${trainee.name}"/>`
+        + `</div>`
+        + `</div>`
+    );
+  }
+
+  document.getElementById("setting_condition-pool-preview").innerHTML = htmlArray.join("");
+
+  for (let i = 0; i < allTrainees.length; i++) {
+    document.getElementById(`attendee-preview-trainee-${allTrainees[i]}`).onclick =
+        () => onClickAttendeePreview(allTrainees[i]);
+  }
+}
+
+function reRenderAttendeesPreview() {
+  for (let i = 0; i < allTrainees.length; i++) {
+    const isAttendee = attendeesPreview.includes(trainees[allTrainees[i]].id);
+    const traineeNodeClassList = document.getElementById(
+        `attendee-preview-trainee-${allTrainees[i]}`).classList;
+    if (isAttendee && traineeNodeClassList.contains("attend-off")) {
+      traineeNodeClassList.remove("attend-off");
+      traineeNodeClassList.add("attend-on");
+    }
+    if (!isAttendee && traineeNodeClassList.contains("attend-on")) {
+      traineeNodeClassList.remove("attend-on");
+      traineeNodeClassList.add("attend-off");
+    }
+  }
+  updateShareAttendees();
+}
+
+function updateShareAttendees() {
+  const targetTopValue = document.getElementById("rank-target").value;
+  const targetPool = document.getElementById("rank-pool").value;
+  let code;
+  let param;
+  if (targetPool !== CUSTOM_POOL_VALUE) {
+    code = targetPool;
+    param = PARAM_POOL;
+  } else if (attendeesPreview.length > MAX_TRAINEE / 2) {
+    const notAttendees = allTrainees.filter(e => !attendeesPreview.includes(Number(e)));
+    code = encodePicks(notAttendees, notAttendees.length);
+    param = PARAM_NOT_CUSTOM_POOL;
+  } else {
+    code = encodePicks(attendeesPreview, attendeesPreview.length);
+    param = PARAM_CUSTOM_POOL;
+  }
+  const shareUrl = `${URL}?${param}=${code}&${PARAM_TARGET_RANK}=${targetTopValue}`;
+  const message = isJapanese ? "練習生をチェック！" : "Let's check trainees!";
+  console.log(shareUrl);
+
+  document.getElementById("setting_condition-share-url").onclick = "";
+  document.getElementById("setting_condition-share-url").onclick = () => {
+    const url = shareUrl;
+    const listener = function (e) {
+      e.clipboardData.setData("text/plain", url);
+      e.preventDefault();
+      document.removeEventListener("copy", listener);
+    };
+    document.addEventListener("copy", listener);
+    document.execCommand("copy");
+    alert("URL copied!");
+  };
+
+  document.getElementById("setting_condition-share-twitter")
+      .setAttribute("href",
+                    `https://twitter.com/intent/tweet?text=${message}`
+                    + `&url=${encodeURIComponent(shareUrl)}&hashtags=推しMENチェッカー,PRODUCE101JAPAN2`);
+
+  document.getElementById("setting_condition-share-line")
+      .setAttribute("href",
+                    `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl)}`);
+
+}
+
+function onClickAttendeePreview(traineeNum) {
+  if (attendeesPreview.includes(traineeNum)) {
+    attendeesPreview = attendeesPreview.filter(e => e !== traineeNum)
+  } else {
+    attendeesPreview.push(traineeNum);
+  }
+  document.getElementById("rank-pool").value = CUSTOM_POOL_VALUE;
+  reRenderAttendeesPreview();
+  updateEstimate();
+}
+
 function updateEstimate() {
-  const poolNum = Number(document.getElementById("rank-pool").value);
+  const poolNum = attendeesPreview.length;
   const targetNum = Number(document.getElementById("rank-target").value);
   estimateCount = getEstimateRank(poolNum, targetNum);
   const target = document.getElementsByClassName("target-estimated");
@@ -244,6 +342,20 @@ function updateEstimate() {
     target[i].innerText = estimateCount;
   }
 
+}
+
+function updatePoolPreview() {
+  const poolNum = document.getElementById("rank-pool").value;
+  if (poolNum === CUSTOM_POOL_VALUE) {
+    return;
+  }
+  attendeesPreview = [];
+  for (let i = 0; i < allTrainees.length; i++) {
+    if (trainees[allTrainees[i]].rank <= Number(poolNum)) {
+      attendeesPreview.push(trainees[allTrainees[i]].id);
+    }
+  }
+  reRenderAttendeesPreview();
 }
 
 function encodePicks(picksArr, len) {
@@ -258,14 +370,12 @@ function encodePicks(picksArr, len) {
 function decodePicks(code) {
   let picksArr = [];
   for (let j = 0; j < MAX_TRAINEE && j * 2 < code.length - 1; j++) {
-    console.log("");
     const v = parseInt(code.substr(j * 2, 2), 32);
     if (v === 0) {
       picksArr[j] = null;
     } else {
       picksArr[j] = v - 1;
     }
-    console.log(v);
   }
   return picksArr;
 }
@@ -281,19 +391,22 @@ function zeroPadding(num, length) {
 function onClickInitCompetition() {
   const errorNode = document.getElementById("start-competition_error");
   errorNode.classList.remove("setting-error");
-  const pool = Number(document.getElementById("rank-pool").value);
-  const target = Number(document.getElementById("rank-target").value);
-  if (pool >= target) {
-    renderMatching();
-    startCompetition(Number(document.getElementById("rank-pool").value),
-                     Number(document.getElementById("rank-target").value));
-    renderNextMatch();
-  } else {
+  const poolSize = attendeesPreview.length;
+  let target = Number(document.getElementById("rank-target").value);
+  if (poolSize === 0) {
     errorNode.classList.add("setting-error");
+    return;
   }
+  if (poolSize < target) {
+    document.getElementById("rank-target").value = poolSize;
+    target = poolSize;
+  }
+  renderMatching();
+  startCompetition(target);
+  renderNextMatch();
 }
 
-function renderFromParam() {
+function readFromParam() {
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.has(PARAM_RESULT)) {
     const pResult = urlParams.get(PARAM_RESULT);
@@ -301,38 +414,63 @@ function renderFromParam() {
     console.log("load result: " + result);
     renderResult(result);
   }
-  if (urlParams.has(PARAM_POOL)) {
-    document.getElementById("rank-pool").value = urlParams.get(PARAM_POOL);
-  }
-  if (urlParams.has(PARAM_TARGET_RANK)) {
+
+  if(urlParams.has(PARAM_TARGET_RANK)){
     document.getElementById("rank-target").value = urlParams.get(PARAM_TARGET_RANK);
   }
+
+  attendeesPreview = [];
+  if (urlParams.has(PARAM_POOL)) {
+    document.getElementById("rank-pool").value = urlParams.get(PARAM_POOL);
+    for (let i = 0; i < allTrainees.length; i++) {
+      if (trainees[allTrainees[i]].rank <= urlParams.get(PARAM_POOL)) {
+        attendeesPreview.push(trainees[allTrainees[i]].id);
+      }
+    }
+  } else if (urlParams.has(PARAM_CUSTOM_POOL)) {
+    attendeesPreview = decodePicks(urlParams.get(PARAM_CUSTOM_POOL));
+    document.getElementById("rank-pool").value = CUSTOM_POOL_VALUE;
+  } else if (urlParams.has(PARAM_NOT_CUSTOM_POOL)) {
+    const notAttendee = decodePicks(urlParams.get(PARAM_NOT_CUSTOM_POOL));
+    attendeesPreview = allTrainees.filter(e => !notAttendee.includes(e));
+    document.getElementById("rank-pool").value = CUSTOM_POOL_VALUE;
+  } else {
+    const pool = document.getElementById("rank-pool").value;
+    for (let i = 0; i < allTrainees.length; i++) {
+      if (trainees[allTrainees[i]].rank <= pool) {
+        attendeesPreview.push(trainees[allTrainees[i]].id);
+      }
+    }
+  }
+
 }
 
 setLang();
 
-readFromCSV(MEMBER_FILE,
-            (t) => {
-              trainees = t;
-            });
-
-renderFromParam();
-
-updateEstimate(Number(document.getElementById("rank-pool").value),
-               Number(document.getElementById("rank-target").value));
-
-const initCompetitionButton = document.getElementsByClassName("init-competition");
-for (let i = 0; i < initCompetitionButton.length; i++) {
-  initCompetitionButton[i].onclick = onClickInitCompetition;
-}
+readFromCSV(
+    MEMBER_FILE,
+    (t) => {
+      trainees = t;
+      allTrainees = Object.keys(trainees).filter(e => RETIRED_TRAINEE !== e).map(e => Number(e));
+      readFromParam();
+      updateEstimate();
+      renderAttendeesPreview();
+      updateShareAttendees();
+      const initCompetitionButton = document.getElementsByClassName("init-competition");
+      for (let i = 0; i < initCompetitionButton.length; i++) {
+        initCompetitionButton[i].onclick = onClickInitCompetition;
+      }
+    });
 
 document.getElementById("rank-pool").onchange =
     () => {
+      updatePoolPreview();
       updateEstimate();
     };
 document.getElementById("rank-target").onchange =
     () => {
       updateEstimate();
+      updateShareAttendees();
     };
 
 document.getElementById("target-boards-back").onclick =
@@ -344,12 +482,12 @@ document.getElementById("target-boards-back").onclick =
 document.getElementById("target-boards-result_share-copy").onclick =
     () => {
       const url = document.getElementById("target-boards-result_share-url-v").value;
-      const listener = function(e){
-        e.clipboardData.setData("text/plain" , url);
+      const listener = function (e) {
+        e.clipboardData.setData("text/plain", url);
         e.preventDefault();
         document.removeEventListener("copy", listener);
       };
-      document.addEventListener("copy" , listener);
+      document.addEventListener("copy", listener);
       document.execCommand("copy");
       alert("URL copied!");
     };
