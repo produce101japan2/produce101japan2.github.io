@@ -328,9 +328,9 @@ function onClickAttendeePreview(traineeNum) {
   } else {
     attendeesPreview.push(traineeNum);
   }
+  document.getElementById("rank-pool").value = CUSTOM_POOL_VALUE;
   reRenderAttendeesPreview();
   updateEstimate();
-  document.getElementById("rank-pool").value = CUSTOM_POOL_VALUE;
 }
 
 function updateEstimate() {
@@ -376,7 +376,6 @@ function decodePicks(code) {
     } else {
       picksArr[j] = v - 1;
     }
-    console.log(v);
   }
   return picksArr;
 }
