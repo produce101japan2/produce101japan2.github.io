@@ -10,12 +10,15 @@ const PARAM_TARGET_RANK = "t";
 const URL_PREFIX = "https://produce101japan2.github.io/sort.html?r=";
 const MAX_TRAINEE = 101;
 
+const CUSTOM_POOL_VALUE = "custom";
+
 let targetTop;
 let isJapanese = false;
 let trainees = [];
 let attendees;
 let history;
 let estimateCount = 0;
+let attendeesPreview = [];
 
 const shuffle = ([...array]) => {
   for (let i = array.length - 1; i >= 0; i--) {
@@ -131,16 +134,10 @@ function getNextMatch(attendees, top) {
   };
 }
 
-function startCompetition(pool, top) {
-  attendees = [];
+function startCompetition(top) {
+  attendees = shuffle(attendeesPreview.slice(0, attendeesPreview.length));
   history = [];
   targetTop = top;
-  for (let i = 0; i < Object.keys(trainees).length; i++) {
-    if (trainees[i].rank <= pool) {
-      attendees.push(trainees[i].id);
-    }
-  }
-  attendees = shuffle(attendees);
 }
 
 function setLang() {
@@ -235,8 +232,55 @@ function renderMatching() {
   document.getElementById("controller").className = "matching";
 }
 
+function renderAttendeesPreview() {
+  const htmlArray = [];
+  for (let i = 0; i < Object.keys(trainees).length; i++) {
+    const trainee = trainees[i];
+    const isAttendee = attendeesPreview.includes(trainees[i].id) ? "attend-on" : "attend-off";
+    htmlArray.push(
+        `<div class="attendee-preview-trainee ${isAttendee}" id="attendee-preview-trainee-${i}" data-trainee="${i}">`
+        + `<div class="attendee-preview-image">`
+        + `<div class="attendee-preview-image-border ${trainee.grade}-rank-border"></div> `
+        + `<img src="assets/trainees/${trainee.image}" alt="${trainee.name}"/>`
+        + `</div>`
+        + `</div>`
+    );
+  }
+
+  document.getElementById("setting_condition-pool-preview").innerHTML = htmlArray.join("");
+
+  for (let i = 0; i < Object.keys(trainees).length; i++) {
+    document.getElementById(`attendee-preview-trainee-${i}`).onclick = () => onClickAttendeePreview(i);
+  }
+}
+
+function reRenderAttendeesPreview() {
+  for (let i = 0; i < Object.keys(trainees).length; i++) {
+    const isAttendee = attendeesPreview.includes(trainees[i].id);
+    const traineeNodeClassList = document.getElementById(`attendee-preview-trainee-${i}`).classList;
+    if (isAttendee) {
+      traineeNodeClassList.remove("attend-off");
+      traineeNodeClassList.add("attend-on");
+    } else {
+      traineeNodeClassList.remove("attend-on");
+      traineeNodeClassList.add("attend-off");
+    }
+  }
+}
+
+function onClickAttendeePreview(traineeNum) {
+  if (attendeesPreview.includes(traineeNum)) {
+    attendeesPreview = attendeesPreview.filter(e => e !== traineeNum)
+  } else {
+    attendeesPreview.push(traineeNum);
+  }
+  reRenderAttendeesPreview();
+  updateEstimate();
+  document.getElementById("rank-pool").value = CUSTOM_POOL_VALUE;
+}
+
 function updateEstimate() {
-  const poolNum = Number(document.getElementById("rank-pool").value);
+  const poolNum = attendeesPreview.length;
   const targetNum = Number(document.getElementById("rank-target").value);
   estimateCount = getEstimateRank(poolNum, targetNum);
   const target = document.getElementsByClassName("target-estimated");
@@ -244,6 +288,20 @@ function updateEstimate() {
     target[i].innerText = estimateCount;
   }
 
+}
+
+function updatePoolPreview() {
+  const poolNum = document.getElementById("rank-pool").value;
+  if (poolNum === CUSTOM_POOL_VALUE) {
+    return;
+  }
+  attendeesPreview = [];
+  for (let i = 0; i < Object.keys(trainees).length; i++) {
+    if (trainees[i].rank <= Number(poolNum)) {
+      attendeesPreview.push(trainees[i].id);
+    }
+  }
+  reRenderAttendeesPreview();
 }
 
 function encodePicks(picksArr, len) {
@@ -281,19 +339,22 @@ function zeroPadding(num, length) {
 function onClickInitCompetition() {
   const errorNode = document.getElementById("start-competition_error");
   errorNode.classList.remove("setting-error");
-  const pool = Number(document.getElementById("rank-pool").value);
-  const target = Number(document.getElementById("rank-target").value);
-  if (pool >= target) {
-    renderMatching();
-    startCompetition(Number(document.getElementById("rank-pool").value),
-                     Number(document.getElementById("rank-target").value));
-    renderNextMatch();
-  } else {
+  const poolSize = attendeesPreview.length;
+  let target = Number(document.getElementById("rank-target").value);
+  if(poolSize === 0){
     errorNode.classList.add("setting-error");
+    return;
   }
+  if (poolSize < target) {
+    document.getElementById("rank-target").value = poolSize;
+    target = poolSize;
+  }
+  renderMatching();
+  startCompetition(target);
+  renderNextMatch();
 }
 
-function renderFromParam() {
+function readFromParam() {
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.has(PARAM_RESULT)) {
     const pResult = urlParams.get(PARAM_RESULT);
@@ -307,27 +368,34 @@ function renderFromParam() {
   if (urlParams.has(PARAM_TARGET_RANK)) {
     document.getElementById("rank-target").value = urlParams.get(PARAM_TARGET_RANK);
   }
+
+  attendeesPreview = [];
+  const pool = document.getElementById("rank-pool").value;
+  for (let i = 0; i < Object.keys(trainees).length; i++) {
+    if (trainees[i].rank <= pool) {
+      attendeesPreview.push(trainees[i].id);
+    }
+  }
 }
 
 setLang();
 
-readFromCSV(MEMBER_FILE,
-            (t) => {
-              trainees = t;
-            });
-
-renderFromParam();
-
-updateEstimate(Number(document.getElementById("rank-pool").value),
-               Number(document.getElementById("rank-target").value));
-
-const initCompetitionButton = document.getElementsByClassName("init-competition");
-for (let i = 0; i < initCompetitionButton.length; i++) {
-  initCompetitionButton[i].onclick = onClickInitCompetition;
-}
+readFromCSV(
+    MEMBER_FILE,
+    (t) => {
+      trainees = t;
+      readFromParam();
+      updateEstimate();
+      renderAttendeesPreview();
+      const initCompetitionButton = document.getElementsByClassName("init-competition");
+      for (let i = 0; i < initCompetitionButton.length; i++) {
+        initCompetitionButton[i].onclick = onClickInitCompetition;
+      }
+    });
 
 document.getElementById("rank-pool").onchange =
     () => {
+      updatePoolPreview();
       updateEstimate();
     };
 document.getElementById("rank-target").onchange =
@@ -344,12 +412,12 @@ document.getElementById("target-boards-back").onclick =
 document.getElementById("target-boards-result_share-copy").onclick =
     () => {
       const url = document.getElementById("target-boards-result_share-url-v").value;
-      const listener = function(e){
-        e.clipboardData.setData("text/plain" , url);
+      const listener = function (e) {
+        e.clipboardData.setData("text/plain", url);
         e.preventDefault();
         document.removeEventListener("copy", listener);
       };
-      document.addEventListener("copy" , listener);
+      document.addEventListener("copy", listener);
       document.execCommand("copy");
       alert("URL copied!");
     };

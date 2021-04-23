@@ -358,6 +358,7 @@ progress::-ms-fill {
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  width: 97vw;
 }
 
 #setting_panel {
@@ -403,4 +404,44 @@ progress::-ms-fill {
   font-size: 10px;
   color: red;
   display: contents;
+}
+
+#setting_condition-pool-preview{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.attendee-preview-image {
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: inline-block;
+  box-sizing: border-box;
+  position: relative;
+  margin: 5px;
+  box-shadow: 4px 4px 2px rgba(0,0,0,0.5);
+  cursor: pointer;
+}
+
+.attend-off .attendee-preview-image {
+  box-shadow: 0 0;
+  filter: brightness(70%) grayscale(60%);
+}
+
+.attendee-preview-image img{
+  border-radius: 50%;
+  width: inherit;
+  height: inherit;
+}
+
+.attendee-preview-image-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border-radius: 50%;
+  box-sizing: border-box;
 }
