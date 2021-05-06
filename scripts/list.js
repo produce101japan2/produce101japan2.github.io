@@ -1,7 +1,7 @@
 const L_COOKIE_NAME = 'list';
 const L_COOKIE_EXPIRES_SECOND = 3600 * 24 * 90; // 3month
-const CURRENT_RANK_COLUMN = 11;
-const CURRENT_BORDER = 60;
+const CURRENT_RANK_COLUMN = 14;
+const CURRENT_BORDER = 41;
 const CVS_FILE = "./trainee_info.csv?202104252005";
 
 // Takes in name of csv and populates necessary data in table
