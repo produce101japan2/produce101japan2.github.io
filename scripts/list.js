@@ -2,7 +2,7 @@ const L_COOKIE_NAME = 'list';
 const L_COOKIE_EXPIRES_SECOND = 3600 * 24 * 90; // 3month
 const CURRENT_RANK_COLUMN = 15;
 const CURRENT_BORDER = 40;
-const CVS_FILE = "./trainee_info.csv?202105070028";
+const CVS_FILE = "./trainee_info.csv?202105212207";
 
 // Takes in name of csv and populates necessary data in table
 function readFromCSV(path) {

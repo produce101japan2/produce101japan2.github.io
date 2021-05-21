@@ -1,4 +1,4 @@
-const MEMBER_FILE = "trainee_info.csv?202105070028";
+const MEMBER_FILE = "trainee_info.csv?202105212207";
 const CURRENT_BORDER = 40;
 const CURRENT_RANK_COLUMN = 15;
 //for maker
